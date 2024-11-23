@@ -7,6 +7,7 @@ dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   api "io.github.libktx:ktx-actors:$ktxVersion"
   api "io.github.libktx:ktx-app:$ktxVersion"
+  api "io.github.libktx:ktx-assets:$ktxVersion"
   api "io.github.libktx:ktx-box2d:$ktxVersion"
   api "io.github.libktx:ktx-collections:$ktxVersion"
   api "io.github.libktx:ktx-graphics:$ktxVersion"
@@ -15,6 +16,7 @@ dependencies {
   api "io.github.libktx:ktx-scene2d:$ktxVersion"
   api "io.github.libktx:ktx-tiled:$ktxVersion"
   api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  api "io.github.quillraven.fleks:Fleks:$fleksVersion"
 
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
