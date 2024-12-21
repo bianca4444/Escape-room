@@ -1,22 +1,24 @@
 package com.github.escape_room.poo.screen
 
 // Importuri necesare pentru grafică, batch-uri și scene
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
+
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
-import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.github.escape_room.poo.component.AnimationComponent
+import com.github.escape_room.poo.component.AnimationType
 import com.github.escape_room.poo.component.imageComponent
 import com.github.escape_room.poo.component.imageComponent.Companion.ImageComponentListener
+import com.github.escape_room.poo.event.MapChangeEvent
+import com.github.escape_room.poo.event.fire
+import com.github.escape_room.poo.system.AnimationSystem
 import com.github.escape_room.poo.system.RenderSystem
 import com.github.quillraven.fleks.World
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
-import ktx.graphics.use
 import ktx.log.logger
 
 // Clasa care reprezintă ecranul principal al jocului
@@ -27,14 +29,15 @@ class GameScreen: KtxScreen {
 
     // Scenă care gestionează actorii și elementele UI
     private val stage: Stage = Stage(ExtendViewport(16f, 9f))
-
+    private val textureAtlas= TextureAtlas("assets/graphics/game.atlas")
     // Textură ce va fi desenată pe ecran
-    private val playerTexture: Texture = Texture("assets/graphics/player.png")
+
     private val world: World = World{
         inject(stage)
+        inject(textureAtlas)
 
         componentListener<ImageComponentListener>()
-
+        system<AnimationSystem>()
         system<RenderSystem>()
     }
 
@@ -42,11 +45,24 @@ class GameScreen: KtxScreen {
     override fun show() {
         log.debug { "Game Screen gets shown" } // Mesaj de debug în consolă
 
+        world.systems.forEach { system ->
+            if(system is EventListener){
+                stage.addListener(system)
+            }
+        }
+
+
+        val tiledMap= TmxMapLoader().load("map/map.tmx")
+        stage.fire(MapChangeEvent(tiledMap))
+
         world.entity{
             add<imageComponent>{
-                image=  Image(TextureRegion(playerTexture,48,48)).apply {
+                image=  Image().apply {
                     setSize(4f,4f)
                 }
+            }
+            add<AnimationComponent>{
+                nextAnimation("player", AnimationType.IDLE)
             }
         }
 
@@ -65,7 +81,7 @@ class GameScreen: KtxScreen {
     // Metodă apelată pentru eliberarea resurselor când ecranul este distrus
     override fun dispose() {
         stage.disposeSafely()       // Eliberează resursele scenei
-        playerTexture.disposeSafely()     // Eliberează memoria ocupată de textura
+        textureAtlas.disposeSafely()
         world.dispose()
     }
     companion object {
