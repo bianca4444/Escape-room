@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="13">
  <tileset firstgid="1" source="map.tsx"/>
+ <tileset firstgid="101" name="entities" tilewidth="48" tileheight="48" tilecount="2" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="1">
+   <image source="../../assets_raw/player/idle_side_00.png" width="48" height="48"/>
+  </tile>
+  <tile id="2">
+   <image source="../graphics/chest.png" width="16" height="16"/>
+  </tile>
+ </tileset>
  <layer id="1" name="ground" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJzzZ2Bg8B/Fo3gUj+JRPIpH8SgexVTDAJobuSk=
+   eJzzZ2Bg8B/Fo3gUj+JRPIqRsAQZeNTeUXtH7UVgABMppZw=
   </data>
  </layer>
  <layer id="3" name="bgd_1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4C+wJ8MTG178alhIKCGUrvR3UELv2KzF59bqA3oGa+47GXAwR5K/pUHYiYysAAV7OUBYgkSMcxecgHIXjEy7aUEjNo7vO3VBGIFIFYkASsDsR6F9gIASVofnw==
+   eJxjYBgFo2AUjIJRMBiBPBAzkYEFqGAvOWDUXsrsTaGzveEk6qOGvX5k6KPUXk0y9elRaC8A5lwCxA==
   </data>
  </layer>
  <layer id="4" name="fgd_1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGAQyEDAL7aO2GcCjtTWN78AF0P9I73GkNAGUNAkc=
+   eJxjYBgFo2AUjIJRMApGwUAAx4F2wCigGQAAgjwAQg==
   </data>
  </layer>
+ <objectgroup id="5" name="entities">
+  <object id="1" name="Player" type="Player" gid="102" x="32.9999" y="307" width="48" height="48"/>
+  <object id="10" name="Chest" type="Chest" gid="103" x="80" y="304.333" width="16" height="16"/>
+ </objectgroup>
 </map>
