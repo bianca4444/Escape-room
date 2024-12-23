@@ -1,6 +1,15 @@
 package com.github.escape_room.poo.system
 
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody
+import com.badlogic.gdx.physics.box2d.Contact
+import com.badlogic.gdx.physics.box2d.ContactImpulse
+import com.badlogic.gdx.physics.box2d.ContactListener
+import com.badlogic.gdx.physics.box2d.Fixture
+import com.badlogic.gdx.physics.box2d.Manifold
 import com.badlogic.gdx.physics.box2d.World
 import com.github.escape_room.poo.component.PhsysicComponent
 import com.github.escape_room.poo.component.imageComponent
@@ -20,7 +29,11 @@ class PhysicSystem (
     private val phWorld: World,
     private val imageCmps: ComponentMapper<imageComponent>,
     private val physicCmps: ComponentMapper<PhsysicComponent>
-) : IteratingSystem(interval = Fixed(1/60f)) {
+) : ContactListener, IteratingSystem(interval = Fixed(1/60f)) {
+
+    init {
+        phWorld.setContactListener(this)
+    }
 
     override fun onUpdate() {
         if(phWorld.autoClearForces){
@@ -59,6 +72,28 @@ class PhysicSystem (
             )
         }
     }
+
+    override fun beginContact(contact: Contact?) {
+
+    }
+
+    override fun endContact(contact: Contact?) {
+
+    }
+
+    private fun Fixture.isStaticBody()= this.body.type==StaticBody
+    private fun Fixture.isDynamicBody()= this.body.type==DynamicBody
+    override fun preSolve(contact: Contact, oldManifold: Manifold) {
+        contact.isEnabled=
+            (contact.fixtureA.isStaticBody() && contact.fixtureB.isDynamicBody()) ||
+                (contact.fixtureB.isStaticBody() && contact.fixtureA.isDynamicBody())
+
+    }
+
+    override fun postSolve(contact: Contact?, impulse: ContactImpulse?) = Unit
+
+
+
     companion object {
         private val log = logger<PhysicSystem>()
     }

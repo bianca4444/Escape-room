@@ -3,6 +3,7 @@ import ktx.box2d.body
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -61,8 +62,11 @@ class EntitySpawnSystem(
                 add<AnimationComponent>{
                     nextAnimation(cfg.model, AnimationType.IDLE)
                 }
-                physicCmpFromImage(phWorld,imageCmp.image,BodyDef.BodyType.DynamicBody){ phCmp, width,height ->
-                    box(width, height){
+                physicCmpFromImage(phWorld,imageCmp.image,cfg.bodyType){ phCmp, width,height ->
+                    val w=width*cfg.physicScaling.x
+                    val h=height*cfg.physicScaling.y
+
+                    box(w, h, cfg.physicOffset){
                         isSensor = false
 
                     }
@@ -84,8 +88,16 @@ class EntitySpawnSystem(
 
     private fun spawnCfg(type: String ): SpawnCfg = cacheCfgs.getOrPut(type){
         when{
-            type == "Player" -> SpawnCfg(AnimationModel.PLAYER)
-            type == "Chest" -> SpawnCfg(AnimationModel.CHEST)
+            type == "Player" -> SpawnCfg(
+                AnimationModel.PLAYER,
+                physicScaling = vec2(0.3f,0.3f),
+                physicOffset = vec2(0f,-10f*UNIT_SCALE),
+            )
+            type == "Chest" -> SpawnCfg(
+                AnimationModel.CHEST,
+                speedScaling = 0f,
+                bodyType = StaticBody,
+            )
             else -> gdxError("Type has no SpawnCfg")
         }
     }

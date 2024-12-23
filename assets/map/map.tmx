@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="13">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="19">
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="101" name="entities" tilewidth="48" tileheight="48" tilecount="2" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
@@ -12,12 +12,12 @@
  </tileset>
  <layer id="1" name="ground" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJzzZ2Bg8B/Fo3gUj+JRPIqRsAQZeNTeUXtH7UVgABMppZw=
+   eJzzZ2Bg8B/Fo3gUU4wZgZiJRCxAJXslSMSj9g4de/FhCRqbTSoetXfU3lF7ERgAP9+UuA==
   </data>
  </layer>
  <layer id="3" name="bgd_1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMBiBPBAzkYEFqGAvOWDUXsrsTaGzveEk6qOGvX5k6KPUXk0y9elRaC8A5lwCxA==
+   eJxjYBgFo2AUjIJRMBiBPBAz4cEMOMQFqGAvMmDCwWZGU0cNe9H9hs1edEAv/9LS3mgobYRmrxEDJqC2f5EBun+R7aeGvdEEVWECSu3VBGItMrAehfYCAFKSBT4=
   </data>
  </layer>
  <layer id="4" name="fgd_1" width="30" height="20">
@@ -26,7 +26,10 @@
   </data>
  </layer>
  <objectgroup id="5" name="entities">
-  <object id="1" name="Player" type="Player" gid="102" x="32.9999" y="307" width="48" height="48"/>
-  <object id="10" name="Chest" type="Chest" gid="103" x="80" y="304.333" width="16" height="16"/>
+  <object id="1" type="Player" gid="102" x="32.9999" y="307" width="48" height="48"/>
+  <object id="13" type="Chest" gid="103" x="16" y="224" width="16" height="16"/>
+  <object id="15" type="Chest" gid="103" x="80" y="224" width="16" height="16"/>
+  <object id="16" type="Chest" gid="103" x="128" y="272" width="16" height="16"/>
+  <object id="17" type="Chest" gid="103" x="208" y="224" width="16" height="16"/>
  </objectgroup>
 </map>
