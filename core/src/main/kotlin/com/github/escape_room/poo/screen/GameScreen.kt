@@ -20,6 +20,7 @@ import com.github.escape_room.poo.event.MapChangeEvent
 import com.github.escape_room.poo.event.fire
 import com.github.escape_room.poo.input.PlayerKeyboardInputProcessor
 import com.github.escape_room.poo.system.AnimationSystem
+import com.github.escape_room.poo.system.CameraSystem
 import com.github.escape_room.poo.system.EntitySpawnSystem
 import com.github.escape_room.poo.system.MoveSystem
 import com.github.escape_room.poo.system.PhysicSystem
@@ -59,6 +60,7 @@ class GameScreen: KtxScreen {
         system<MoveSystem>()
         system<PhysicSystem>()
         system<AnimationSystem>()
+        system<CameraSystem>()
         system<RenderSystem>()
     }
 

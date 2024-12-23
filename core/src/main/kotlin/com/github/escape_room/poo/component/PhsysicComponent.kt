@@ -14,6 +14,7 @@ import ktx.box2d.body
 import ktx.math.vec2
 
 class PhsysicComponent {
+    val prevPos=vec2()
     val impulse = vec2()
     lateinit var body: Body
 
