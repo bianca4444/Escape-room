@@ -9,9 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Scaling
 import com.github.escape_room.poo.Escape_Room.Companion.UNIT_SCALE
+import com.github.escape_room.poo.actor.FlipImage
 import com.github.escape_room.poo.component.AnimationComponent
 import com.github.escape_room.poo.component.AnimationModel
 import com.github.escape_room.poo.component.AnimationType
+import com.github.escape_room.poo.component.CollisionComponent
 import com.github.escape_room.poo.component.DEFAULT_SPEED
 import com.github.escape_room.poo.component.MoveComponent
 import com.github.quillraven.fleks.EntityCreateCfg
@@ -53,12 +55,13 @@ class EntitySpawnSystem(
 
             world.entity{
                val imageCmp = add<imageComponent>{
-                    image =  Image().apply{
+                    image = FlipImage().apply{
                         setPosition(location.x, location.y)
                         setSize(relativeSize.x, relativeSize.y)
                         setScaling(Scaling.fill)
                     }
                 }
+
                 add<AnimationComponent>{
                     nextAnimation(cfg.model, AnimationType.IDLE)
                 }
@@ -67,8 +70,14 @@ class EntitySpawnSystem(
                     val h=height*cfg.physicScaling.y
 
                     box(w, h, cfg.physicOffset){
-                        isSensor = false
+                        isSensor = cfg.bodyType!=StaticBody
 
+                    }
+                    if(cfg.bodyType!=StaticBody){
+                        val collH=h*0.4f
+                        val collOffset=vec2().apply { set(cfg.physicOffset) }
+                        collOffset.y -=h*0.5f-collH*0.5f
+                        box(w, collH, collOffset)  //Collision box
                     }
                 }
                 if(cfg.speedScaling>0f) {
@@ -79,6 +88,10 @@ class EntitySpawnSystem(
 
                 if(type == "Player"){
                     add<PlayerComponent>()
+                }
+
+                if(cfg.bodyType!=StaticBody){
+                    add<CollisionComponent>()
                 }
 
             }

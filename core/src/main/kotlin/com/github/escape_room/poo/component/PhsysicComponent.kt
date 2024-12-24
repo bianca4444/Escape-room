@@ -9,12 +9,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.github.escape_room.poo.Escape_Room.Companion.UNIT_SCALE
+import com.github.escape_room.poo.system.CollisionSpawnSystem.Companion.SPAWN_AREA_SIZE
 import com.github.quillraven.fleks.ComponentListener
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.EntityCreateCfg
 import ktx.app.gdxError
 import ktx.box2d.BodyDefinition
 import ktx.box2d.body
+import ktx.box2d.circle
 import ktx.box2d.loop
 import ktx.math.vec2
 import java.awt.geom.Rectangle2D
@@ -48,6 +50,7 @@ class PhsysicComponent {
                                 vec2(bodyW, bodyH),
                                 vec2(0f, bodyH)
                             )
+                            circle(SPAWN_AREA_SIZE+2f){isSensor = true}
                         }
                     }
 

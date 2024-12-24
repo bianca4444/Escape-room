@@ -1,12 +1,12 @@
 package com.github.escape_room.poo.component
 
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.github.escape_room.poo.actor.FlipImage
 import com.github.quillraven.fleks.ComponentListener
 import com.github.quillraven.fleks.Entity
 
 class imageComponent: Comparable<imageComponent> {
-    lateinit var image: Image
+    lateinit var image: FlipImage
     override fun compareTo(other: imageComponent): Int {
         val yDiff=other.image.y.compareTo(image.y)
         return if(yDiff!=0){

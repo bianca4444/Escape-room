@@ -21,6 +21,7 @@ import com.github.escape_room.poo.event.fire
 import com.github.escape_room.poo.input.PlayerKeyboardInputProcessor
 import com.github.escape_room.poo.system.AnimationSystem
 import com.github.escape_room.poo.system.CameraSystem
+import com.github.escape_room.poo.system.CollisionDespawnSystem
 import com.github.escape_room.poo.system.CollisionSpawnSystem
 import com.github.escape_room.poo.system.DebugSystem
 import com.github.escape_room.poo.system.EntitySpawnSystem
@@ -60,12 +61,13 @@ class GameScreen: KtxScreen {
 
         system<EntitySpawnSystem>()
         system<CollisionSpawnSystem>()
+        system<CollisionDespawnSystem>()
         system<MoveSystem>()
         system<PhysicSystem>()
         system<AnimationSystem>()
         system<CameraSystem>()
         system<RenderSystem>()
-        system<DebugSystem>()
+        //system<DebugSystem>() Apelam sistemul doar daca verificam ceva
     }
 
     // Metodă apelată când ecranul devine activ
