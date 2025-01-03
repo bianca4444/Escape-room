@@ -13,6 +13,7 @@ import com.github.escape_room.poo.actor.FlipImage
 import com.github.escape_room.poo.component.AnimationComponent
 import com.github.escape_room.poo.component.AnimationModel
 import com.github.escape_room.poo.component.AnimationType
+import com.github.escape_room.poo.component.AttackComponent
 import com.github.escape_room.poo.component.CollisionComponent
 import com.github.escape_room.poo.component.DEFAULT_SPEED
 import com.github.escape_room.poo.component.MoveComponent
@@ -37,6 +38,7 @@ import ktx.tiled.y
 import com.github.escape_room.poo.component.PhsysicComponent.Companion.physicCmpFromImage
 import com.github.escape_room.poo.component.PlayerComponent
 import ktx.box2d.box
+import kotlin.math.max
 
 
 @AllOf([SpawnComponent::class])
@@ -68,9 +70,11 @@ class EntitySpawnSystem(
                 physicCmpFromImage(phWorld,imageCmp.image,cfg.bodyType){ phCmp, width,height ->
                     val w=width*cfg.physicScaling.x
                     val h=height*cfg.physicScaling.y
-
+                    phCmp.offset.set(cfg.physicOffset)
+                    phCmp.size.set(w,h)
                     box(w, h, cfg.physicOffset){
                         isSensor = cfg.bodyType!=StaticBody
+                        userData=HIT_BOX_SENSOR
 
                     }
                     if(cfg.bodyType!=StaticBody){
@@ -83,6 +87,13 @@ class EntitySpawnSystem(
                 if(cfg.speedScaling>0f) {
                     add<MoveComponent> {
                         speed = DEFAULT_SPEED * cfg.speedScaling
+                    }
+                }
+
+                if(cfg.canAttack){
+                    add<AttackComponent>{
+                        maxDelay=cfg.attackDelay
+                        extraRange=cfg.attackExtraRange
                     }
                 }
 
@@ -103,12 +114,14 @@ class EntitySpawnSystem(
         when{
             type == "Player" -> SpawnCfg(
                 AnimationModel.PLAYER,
+                attackExtraRange = 0.6f,
                 physicScaling = vec2(0.3f,0.3f),
                 physicOffset = vec2(0f,-10f*UNIT_SCALE),
             )
             type == "Chest" -> SpawnCfg(
                 AnimationModel.CHEST,
                 speedScaling = 0f,
+                canAttack = false,
                 bodyType = StaticBody,
             )
             else -> gdxError("Type has no SpawnCfg")
@@ -141,6 +154,9 @@ class EntitySpawnSystem(
             }
         }
         return false
+    }
+    companion object{
+        const val HIT_BOX_SENSOR="Hitbox"
     }
 
 

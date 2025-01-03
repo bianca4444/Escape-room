@@ -20,6 +20,7 @@ import com.github.escape_room.poo.event.MapChangeEvent
 import com.github.escape_room.poo.event.fire
 import com.github.escape_room.poo.input.PlayerKeyboardInputProcessor
 import com.github.escape_room.poo.system.AnimationSystem
+import com.github.escape_room.poo.system.AttackSystem
 import com.github.escape_room.poo.system.CameraSystem
 import com.github.escape_room.poo.system.CollisionDespawnSystem
 import com.github.escape_room.poo.system.CollisionSpawnSystem
@@ -63,6 +64,7 @@ class GameScreen: KtxScreen {
         system<CollisionSpawnSystem>()
         system<CollisionDespawnSystem>()
         system<MoveSystem>()
+        system<AttackSystem>()
         system<PhysicSystem>()
         system<AnimationSystem>()
         system<CameraSystem>()
@@ -84,7 +86,7 @@ class GameScreen: KtxScreen {
         val tiledMap= TmxMapLoader().load("map/map.tmx")
         stage.fire(MapChangeEvent(tiledMap!!))
 
-        PlayerKeyboardInputProcessor(eWorld,eWorld.mapper())
+        PlayerKeyboardInputProcessor(eWorld)
     }
 
     override fun resize(width: Int, height: Int) {

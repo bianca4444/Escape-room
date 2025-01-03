@@ -10,6 +10,9 @@ const val DEFAULT_SPEED=3f
 data class SpawnCfg(
     val model: AnimationModel,
     val speedScaling:Float=1f,
+    val canAttack:Boolean=true,
+    val attackDelay:Float=0.2f,
+    val attackExtraRange: Float=0f,
     val physicScaling: Vector2=vec2(1f,1f),
     val physicOffset: Vector2=vec2(0f, 0f),
     val bodyType: BodyType = BodyType.DynamicBody,

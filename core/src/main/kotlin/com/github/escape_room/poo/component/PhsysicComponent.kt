@@ -24,6 +24,8 @@ import java.awt.geom.Rectangle2D
 class PhsysicComponent {
     val prevPos=vec2()
     val impulse = vec2()
+    val offset=vec2()
+    val size=vec2()
     lateinit var body: Body
 
     companion object {

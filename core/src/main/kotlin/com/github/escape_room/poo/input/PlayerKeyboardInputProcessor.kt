@@ -6,8 +6,10 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.Input.Keys.A
 import com.badlogic.gdx.Input.Keys.D
 import com.badlogic.gdx.Input.Keys.S
+import com.badlogic.gdx.Input.Keys.SPACE
 import com.badlogic.gdx.Input.Keys.W
 import com.badlogic.gdx.InputMultiplexer
+import com.github.escape_room.poo.component.AttackComponent
 import com.github.escape_room.poo.component.MoveComponent
 import com.github.escape_room.poo.component.PlayerComponent
 import com.github.quillraven.fleks.ComponentMapper
@@ -16,7 +18,8 @@ import ktx.app.KtxInputAdapter
 
 class PlayerKeyboardInputProcessor(
     world:World,
-    private val moveCmps: ComponentMapper<MoveComponent>,
+    private val moveCmps: ComponentMapper<MoveComponent> = world.mapper(),
+    private val attackCmps: ComponentMapper<AttackComponent> = world.mapper(),
 ) :KtxInputAdapter {
 
     private var playerSin=0f
@@ -50,6 +53,14 @@ class PlayerKeyboardInputProcessor(
                 A -> playerCos=-1f
             }
             updatePlayerMovement()
+            return true
+        } else if (keycode == SPACE) {
+            playerEntities.forEach {
+                with(attackCmps[it]){
+                    doAttack=true
+                    startAttack()
+                }
+            }
             return true
         }
         return false
