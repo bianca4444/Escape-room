@@ -16,6 +16,7 @@ import com.github.escape_room.poo.component.AnimationType
 import com.github.escape_room.poo.component.AttackComponent
 import com.github.escape_room.poo.component.CollisionComponent
 import com.github.escape_room.poo.component.DEFAULT_SPEED
+import com.github.escape_room.poo.component.LootComponent
 import com.github.escape_room.poo.component.MoveComponent
 import com.github.quillraven.fleks.EntityCreateCfg
 import com.github.escape_room.poo.component.SpawnCfg
@@ -37,6 +38,7 @@ import ktx.tiled.x
 import ktx.tiled.y
 import com.github.escape_room.poo.component.PhsysicComponent.Companion.physicCmpFromImage
 import com.github.escape_room.poo.component.PlayerComponent
+import com.github.escape_room.poo.component.StateComponent
 import ktx.box2d.box
 import kotlin.math.max
 
@@ -99,6 +101,11 @@ class EntitySpawnSystem(
 
                 if(type == "Player"){
                     add<PlayerComponent>()
+                    add<StateComponent>()
+                }
+
+                if(cfg.lootable){
+                    add<LootComponent>()
                 }
 
                 if(cfg.bodyType!=StaticBody){
@@ -123,6 +130,7 @@ class EntitySpawnSystem(
                 speedScaling = 0f,
                 canAttack = false,
                 bodyType = StaticBody,
+                lootable = true,
             )
             else -> gdxError("Type has no SpawnCfg")
         }

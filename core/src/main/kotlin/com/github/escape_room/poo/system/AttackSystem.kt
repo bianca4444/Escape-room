@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.World
 import com.github.escape_room.poo.component.AnimationComponent
 import com.github.escape_room.poo.component.AttackComponent
 import com.github.escape_room.poo.component.AttackState
+import com.github.escape_room.poo.component.LootComponent
 import com.github.escape_room.poo.component.PhsysicComponent
 import com.github.escape_room.poo.component.PlayerComponent
 import com.github.escape_room.poo.component.imageComponent
@@ -24,6 +25,7 @@ class AttackSystem(
     private val imgCmps: ComponentMapper<imageComponent>,
     private val physicCmps: ComponentMapper<PhsysicComponent>,
     private val playerCmps: ComponentMapper<PlayerComponent>,
+    private val lootCmps: ComponentMapper<LootComponent>,
     private val phWorld: World,
 ) : IteratingSystem() {
 
@@ -80,9 +82,21 @@ class AttackSystem(
                     return@query true
                 }
 
+                configureEntity(fixtureEntity){
+                    if(entity in playerCmps) {
+                        lootCmps.getOrNull(it)?.let { lootCmp ->
+                            lootCmp.interactEntity = entity
+                        }
+                    }
+                }
+
                 return@query true
             }
             attackCmp.state= AttackState.READY
+        }
+        val isDone=animationCmps.getOrNull(entity)?.isAnimationFinished()?:true
+        if(isDone){
+            attackCmp.state=AttackState.READY
         }
     }
     companion object {

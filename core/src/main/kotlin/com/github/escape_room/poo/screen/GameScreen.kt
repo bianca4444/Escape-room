@@ -14,6 +14,8 @@ import com.github.escape_room.poo.component.AnimationModel
 import com.github.escape_room.poo.component.AnimationType
 import com.github.escape_room.poo.component.PhsysicComponent
 import com.github.escape_room.poo.component.PhsysicComponent.Companion.PhsysicComponentListener
+import com.github.escape_room.poo.component.StateComponent
+import com.github.escape_room.poo.component.StateComponent.Companion.StateComponentListener
 import com.github.escape_room.poo.component.imageComponent
 import com.github.escape_room.poo.component.imageComponent.Companion.ImageComponentListener
 import com.github.escape_room.poo.event.MapChangeEvent
@@ -26,9 +28,11 @@ import com.github.escape_room.poo.system.CollisionDespawnSystem
 import com.github.escape_room.poo.system.CollisionSpawnSystem
 import com.github.escape_room.poo.system.DebugSystem
 import com.github.escape_room.poo.system.EntitySpawnSystem
+import com.github.escape_room.poo.system.LootSystem
 import com.github.escape_room.poo.system.MoveSystem
 import com.github.escape_room.poo.system.PhysicSystem
 import com.github.escape_room.poo.system.RenderSystem
+import com.github.escape_room.poo.system.StateSystem
 import com.github.quillraven.fleks.World
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
@@ -59,14 +63,17 @@ class GameScreen: KtxScreen {
 
         componentListener<ImageComponentListener>()
         componentListener<PhsysicComponentListener>()
+        componentListener<StateComponentListener>()
 
         system<EntitySpawnSystem>()
         system<CollisionSpawnSystem>()
         system<CollisionDespawnSystem>()
         system<MoveSystem>()
         system<AttackSystem>()
+        system<LootSystem>()
         system<PhysicSystem>()
         system<AnimationSystem>()
+        system<StateSystem>()
         system<CameraSystem>()
         system<RenderSystem>()
         //system<DebugSystem>() Apelam sistemul doar daca verificam ceva

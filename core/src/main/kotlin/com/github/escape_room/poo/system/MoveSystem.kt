@@ -26,7 +26,8 @@ class MoveSystem(
         val phsysicCmp = phsysicCmps[entity]
         val mass = phsysicCmp.body.mass
         val (velX,velY) = phsysicCmp.body.linearVelocity
-        if(moveCmp.cos==0f && moveCmp.sin==0f) {
+
+        if((moveCmp.cos==0f && moveCmp.sin==0f) || moveCmp.root ) {
             phsysicCmp.impulse.set(
                 mass*(0f - velX),
                 mass*(0f-velY),
