@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.github.escape_room.poo.component.AnimationModel
-
+import com.github.escape_room.poo.dialog.Dialog
 
 
 fun Stage.fire(event: Event) = this.root.fire(event)
@@ -18,4 +18,4 @@ class EntityAttackEvent(val model: AnimationModel):Event()
 
 class EntityLootEvent(val model: AnimationModel):Event()
 
-
+class EntityDialogEvent(val dialog: Dialog): Event()

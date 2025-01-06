@@ -18,9 +18,13 @@ import com.github.escape_room.poo.component.StateComponent
 import com.github.escape_room.poo.component.StateComponent.Companion.StateComponentListener
 import com.github.escape_room.poo.component.imageComponent
 import com.github.escape_room.poo.component.imageComponent.Companion.ImageComponentListener
+import com.github.escape_room.poo.dialog.Dialog
+import com.github.escape_room.poo.dialog.dialog
+import com.github.escape_room.poo.event.EntityDialogEvent
 import com.github.escape_room.poo.event.MapChangeEvent
 import com.github.escape_room.poo.event.fire
 import com.github.escape_room.poo.input.PlayerKeyboardInputProcessor
+import com.github.escape_room.poo.input.gdxInputProcessor
 import com.github.escape_room.poo.system.AnimationSystem
 import com.github.escape_room.poo.system.AttackSystem
 import com.github.escape_room.poo.system.AudioSystem
@@ -28,18 +32,23 @@ import com.github.escape_room.poo.system.CameraSystem
 import com.github.escape_room.poo.system.CollisionDespawnSystem
 import com.github.escape_room.poo.system.CollisionSpawnSystem
 import com.github.escape_room.poo.system.DebugSystem
+import com.github.escape_room.poo.system.DialogSystem
 import com.github.escape_room.poo.system.EntitySpawnSystem
 import com.github.escape_room.poo.system.LootSystem
 import com.github.escape_room.poo.system.MoveSystem
 import com.github.escape_room.poo.system.PhysicSystem
 import com.github.escape_room.poo.system.RenderSystem
 import com.github.escape_room.poo.system.StateSystem
+import com.github.escape_room.poo.ui.model.DialogModel
+import com.github.escape_room.poo.ui.view.dialogView
+import com.github.escape_room.poo.ui.view.gameView
 import com.github.quillraven.fleks.World
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
 import ktx.log.logger
 import ktx.math.vec2
+import ktx.scene2d.actors
 
 // Clasa care reprezintă ecranul principal al jocului
 class GameScreen: KtxScreen {
@@ -74,6 +83,7 @@ class GameScreen: KtxScreen {
         system<MoveSystem>()
         system<AttackSystem>()
         system<LootSystem>()
+        system<DialogSystem>()
         system<PhysicSystem>()
         system<AnimationSystem>()
         system<StateSystem>()
@@ -82,6 +92,14 @@ class GameScreen: KtxScreen {
         system<AudioSystem>()
         //system<DebugSystem>() Apelam sistemul doar daca verificam ceva
     }
+
+    init {
+        uiStage.actors {
+            dialogView(DialogModel(stage))
+
+        }
+    }
+
     // Metodă apelată când ecranul devine activ
     override fun show() {
         log.debug { "Game Screen gets shown" } // Mesaj de debug în consolă
@@ -92,16 +110,18 @@ class GameScreen: KtxScreen {
             }
         }
 
-
         val tiledMap= TmxMapLoader().load("map/map.tmx")
+        currentMap = tiledMap
         stage.fire(MapChangeEvent(tiledMap!!))
 
         PlayerKeyboardInputProcessor(eWorld)
+        gdxInputProcessor(uiStage)
     }
 
     override fun resize(width: Int, height: Int) {
         stage.viewport.update(width, height, true)
         uiStage.viewport.update(width, height, true)
+        super.resize(width, height)
     }
 
 

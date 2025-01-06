@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.github.escape_room.poo.component.AnimationComponent
 import com.github.escape_room.poo.component.AttackComponent
 import com.github.escape_room.poo.component.AttackState
+import com.github.escape_room.poo.component.DialogComponent
 import com.github.escape_room.poo.component.LootComponent
 import com.github.escape_room.poo.component.PhsysicComponent
 import com.github.escape_room.poo.component.PlayerComponent
@@ -29,6 +30,7 @@ class AttackSystem(
     private val physicCmps: ComponentMapper<PhsysicComponent>,
     private val playerCmps: ComponentMapper<PlayerComponent>,
     private val lootCmps: ComponentMapper<LootComponent>,
+    private val dialogCmps: ComponentMapper<DialogComponent>,
     private val phWorld: World,
     private val stage: Stage
 ) : IteratingSystem() {
@@ -88,6 +90,11 @@ class AttackSystem(
 
                 configureEntity(fixtureEntity){
                     if(entity in playerCmps) {
+                        dialogCmps.getOrNull(it)?.let { dialogCmp ->
+                            dialogCmp.interactEntity = entity
+                            print("Attack")
+                        }
+
                         lootCmps.getOrNull(it)?.let { lootCmp ->
                             lootCmp.interactEntity = entity
                         }

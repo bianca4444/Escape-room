@@ -63,7 +63,7 @@ class RenderSystem(
         //render UI
         with(uiStage){
             viewport.apply()
-            act(deltaTime)
+            act()
             draw()
         }
     }

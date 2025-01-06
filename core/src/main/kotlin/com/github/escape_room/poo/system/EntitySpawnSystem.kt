@@ -16,6 +16,8 @@ import com.github.escape_room.poo.component.AnimationType
 import com.github.escape_room.poo.component.AttackComponent
 import com.github.escape_room.poo.component.CollisionComponent
 import com.github.escape_room.poo.component.DEFAULT_SPEED
+import com.github.escape_room.poo.component.DialogComponent
+import com.github.escape_room.poo.component.DialogId
 import com.github.escape_room.poo.component.LootComponent
 import com.github.escape_room.poo.component.MoveComponent
 import com.github.quillraven.fleks.EntityCreateCfg
@@ -86,6 +88,14 @@ class EntitySpawnSystem(
                         box(w, collH, collOffset)  //Collision box
                     }
                 }
+
+                if(cfg.dialogId!= DialogId.NONE){
+                    add<DialogComponent>{
+                        dialogId = cfg.dialogId
+                        print("Entity")
+                    }
+                }
+
                 if(cfg.speedScaling>0f) {
                     add<MoveComponent> {
                         speed = DEFAULT_SPEED * cfg.speedScaling
@@ -125,6 +135,13 @@ class EntitySpawnSystem(
                 physicScaling = vec2(0.3f,0.3f),
                 physicOffset = vec2(0f,-10f*UNIT_SCALE),
             )
+
+            type =="Q"-> SpawnCfg(
+                AnimationModel.CHEST,
+                dialogId = DialogId.Q
+
+            )
+
             type == "Chest" -> SpawnCfg(
                 AnimationModel.CHEST,
                 speedScaling = 0f,

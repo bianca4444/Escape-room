@@ -9,12 +9,29 @@ import com.badlogic.gdx.Input.Keys.S
 import com.badlogic.gdx.Input.Keys.SPACE
 import com.badlogic.gdx.Input.Keys.W
 import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.InputProcessor
 import com.github.escape_room.poo.component.AttackComponent
 import com.github.escape_room.poo.component.MoveComponent
 import com.github.escape_room.poo.component.PlayerComponent
 import com.github.quillraven.fleks.ComponentMapper
 import com.github.quillraven.fleks.World
 import ktx.app.KtxInputAdapter
+
+fun gdxInputProcessor(processor: InputProcessor) {
+    val currProcessor=Gdx.input.inputProcessor
+    if(currProcessor==null) {
+        Gdx.input.inputProcessor=processor
+    } else {
+        if(currProcessor is InputMultiplexer){
+            if(processor !in currProcessor.processors){
+                currProcessor.addProcessor(processor)
+            }
+        } else {
+            Gdx.input.inputProcessor=InputMultiplexer(currProcessor,processor)
+        }
+    }
+}
+
 
 class PlayerKeyboardInputProcessor(
     world:World,
@@ -27,7 +44,7 @@ class PlayerKeyboardInputProcessor(
     private val playerEntities = world.family(allOf =arrayOf(PlayerComponent::class))
 
     init {
-        Gdx.input.inputProcessor = this
+        gdxInputProcessor(this)
 
     }
 
