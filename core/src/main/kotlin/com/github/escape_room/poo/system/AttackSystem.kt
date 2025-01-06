@@ -2,6 +2,7 @@ package com.github.escape_room.poo.system
 
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.github.escape_room.poo.component.AnimationComponent
 import com.github.escape_room.poo.component.AttackComponent
 import com.github.escape_room.poo.component.AttackState
@@ -9,6 +10,8 @@ import com.github.escape_room.poo.component.LootComponent
 import com.github.escape_room.poo.component.PhsysicComponent
 import com.github.escape_room.poo.component.PlayerComponent
 import com.github.escape_room.poo.component.imageComponent
+import com.github.escape_room.poo.event.EntityAttackEvent
+import com.github.escape_room.poo.event.fire
 import com.github.escape_room.poo.system.EntitySpawnSystem.Companion.HIT_BOX_SENSOR
 import com.github.quillraven.fleks.AllOf
 import com.github.quillraven.fleks.ComponentMapper
@@ -27,6 +30,7 @@ class AttackSystem(
     private val playerCmps: ComponentMapper<PlayerComponent>,
     private val lootCmps: ComponentMapper<LootComponent>,
     private val phWorld: World,
+    private val stage: Stage
 ) : IteratingSystem() {
 
     override fun onTickEntity(entity: Entity) {
@@ -40,7 +44,7 @@ class AttackSystem(
             attackCmp.doAttack=false
             attackCmp.state= AttackState.ATTACKING
             attackCmp.delay=attackCmp.maxDelay
-            return
+            stage.fire(EntityAttackEvent(animationCmps[entity].model))
         }
 
         attackCmp.delay-=deltaTime

@@ -1,5 +1,6 @@
 package com.github.escape_room.poo.system
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
@@ -22,6 +23,7 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 
 class RenderSystem(
     private val stage: Stage,
+    @Qualifier("uiStage") private val uiStage: Stage,
     private val imageCmps: ComponentMapper<imageComponent>
 ) : EventListener, IteratingSystem(
     comparator = compareEntity {e1,e2 ->imageCmps[e1].compareTo(imageCmps[e2])}
@@ -42,6 +44,7 @@ class RenderSystem(
 
 
             if(bgdLayers.isNotEmpty()) {
+                stage.batch.color=Color.WHITE
                 stage.batch.use(orthoCam.combined) {
                     bgdLayers.forEach { mapRender.renderTileLayer(it)}
                 }
@@ -51,10 +54,17 @@ class RenderSystem(
             draw()
 
             if(fgdLayers.isNotEmpty()) {
+                stage.batch.color=Color.WHITE
                 stage.batch.use(orthoCam.combined) {
                     fgdLayers.forEach { mapRender.renderTileLayer(it)}
                 }
             }
+        }
+        //render UI
+        with(uiStage){
+            viewport.apply()
+            act(deltaTime)
+            draw()
         }
     }
 

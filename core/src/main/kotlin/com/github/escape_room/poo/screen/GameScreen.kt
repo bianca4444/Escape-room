@@ -23,6 +23,7 @@ import com.github.escape_room.poo.event.fire
 import com.github.escape_room.poo.input.PlayerKeyboardInputProcessor
 import com.github.escape_room.poo.system.AnimationSystem
 import com.github.escape_room.poo.system.AttackSystem
+import com.github.escape_room.poo.system.AudioSystem
 import com.github.escape_room.poo.system.CameraSystem
 import com.github.escape_room.poo.system.CollisionDespawnSystem
 import com.github.escape_room.poo.system.CollisionSpawnSystem
@@ -48,6 +49,7 @@ class GameScreen: KtxScreen {
 
     // Scenă care gestionează actorii și elementele UI
     private val stage: Stage = Stage(ExtendViewport(16f, 9f))
+    private val uiStage: Stage = Stage(ExtendViewport(320f, 180f))
     private val textureAtlas= TextureAtlas("assets/graphics/game.atlas")
     private var currentMap: TiledMap? = null
     private val phWorld = createWorld(gravity = vec2()).apply {
@@ -57,6 +59,7 @@ class GameScreen: KtxScreen {
 
     private val eWorld: World = World{
         inject(stage)
+        inject("uiStage",uiStage)
         inject(textureAtlas)
         inject(phWorld)
 
@@ -76,9 +79,9 @@ class GameScreen: KtxScreen {
         system<StateSystem>()
         system<CameraSystem>()
         system<RenderSystem>()
+        system<AudioSystem>()
         //system<DebugSystem>() Apelam sistemul doar daca verificam ceva
     }
-
     // Metodă apelată când ecranul devine activ
     override fun show() {
         log.debug { "Game Screen gets shown" } // Mesaj de debug în consolă
@@ -98,6 +101,7 @@ class GameScreen: KtxScreen {
 
     override fun resize(width: Int, height: Int) {
         stage.viewport.update(width, height, true)
+        uiStage.viewport.update(width, height, true)
     }
 
 
@@ -108,7 +112,8 @@ class GameScreen: KtxScreen {
 
     // Metodă apelată pentru eliberarea resurselor când ecranul este distrus
     override fun dispose() {
-        stage.disposeSafely()       // Eliberează resursele scenei
+        stage.disposeSafely()
+        uiStage.disposeSafely()
         textureAtlas.disposeSafely()
         eWorld.dispose()
         currentMap?.disposeSafely()
