@@ -52,7 +52,6 @@ class DialogView(
 
         // data binding
         model.onPropertyChange(DialogModel::text) {
-            Gdx.app.log("DialogView", "Text updated: $it")
             dialogTxt.txt = it
             this.alpha = 1f
         }
@@ -68,9 +67,7 @@ class DialogView(
             dialogOptions.forEach {
                 // don't use plusAssign KTX operator because it will not properly use the table's defaults
                 buttonArea.add(textButton(it.text, Buttons.TEXT_BUTTON.skinKey).apply {
-                    onClick {
-                        print("Buton")
-                        this@DialogView.model.triggerOption(it.idx) }
+                    onClick { this@DialogView.model.triggerOption(it.idx) }
                 })
             }
         }

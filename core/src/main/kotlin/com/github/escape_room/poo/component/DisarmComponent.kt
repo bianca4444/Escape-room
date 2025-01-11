@@ -1,4 +1,4 @@
 package com.github.escape_room.poo.component
 
-class PlayerComponent
+class DisarmComponent
 

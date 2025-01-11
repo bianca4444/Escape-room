@@ -8,6 +8,7 @@ import com.github.escape_room.poo.dialog.Dialog
 import com.github.escape_room.poo.event.EntityDialogEvent
 
 
+
 class DialogModel(stage: Stage) : PropertyChangeSource(), EventListener {
 
     private lateinit var dialog: Dialog
@@ -19,34 +20,30 @@ class DialogModel(stage: Stage) : PropertyChangeSource(), EventListener {
         stage.addListener(this)
     }
 
-    fun triggerOption(optionIdx:Int){
+    fun triggerOption(optionIdx: Int) {
         dialog.triggerOption(optionIdx)
         updateTextAndOptions()
-        Gdx.app.log("DialogModel", "Trigger received")
     }
 
     private fun updateTextAndOptions() {
-        completed=dialog.isComplete()
-        if(!completed){
-            text=dialog.currentNode.text
-            options = dialog.currentNode.options.map { DialogOptionModel(it.id,it.text) }
-            Gdx.app.log("DialogModel", "Updated text: $text, options: $options")
+        completed = dialog.isComplete()
+        if (!completed) {
+            text = dialog.currentNode.text
+            options = dialog.currentNode.options.map { DialogOptionModel(it.idx, it.text) }
         }
     }
 
     override fun handle(event: Event): Boolean {
-
-        when(event){
-            is EntityDialogEvent ->{
-                this.dialog=event.dialog
+        when (event) {
+            is EntityDialogEvent -> {
+                this.dialog = event.dialog
                 updateTextAndOptions()
-                Gdx.app.log("DialogModel", "EntityDialogEvent received")
             }
 
             else -> return false
         }
-        return true
 
+        return true
     }
 
 }

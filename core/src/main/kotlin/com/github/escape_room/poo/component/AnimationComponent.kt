@@ -3,12 +3,6 @@ package com.github.escape_room.poo.component;
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 
-enum class AnimationModel{
-    PLAYER, CHEST, UNDEFINED ;
-
-    val atlasKey:String=this.toString().lowercase()
-}
-
 enum class AnimationType {
     IDLE, RUN, ATTACK, DEATH, OPEN;
 
@@ -16,21 +10,21 @@ enum class AnimationType {
 }
 
 data class AnimationComponent(
-    var model: AnimationModel = AnimationModel.UNDEFINED,
+    var atlasKey: String = "",
     var stateTime: Float = 0f,
-    var playMode: Animation.PlayMode = Animation.PlayMode.LOOP
+    var mode: Animation.PlayMode = Animation.PlayMode.LOOP
 ) {
     lateinit var animation: Animation<TextureRegionDrawable>
     var nextAnimation: String = NO_ANIMATION
+        private set
 
-
-    fun nextAnimation(model: AnimationModel, type: AnimationType) {
-        this.model = model
-        nextAnimation = "${model.atlasKey}/${type.atlasKey}"
+    fun nextAnimation(atlasKey: String, type: AnimationType) {
+        this.atlasKey = atlasKey
+        nextAnimation = "$atlasKey/${type.atlasKey}"
     }
 
     fun nextAnimation(type: AnimationType) {
-        nextAnimation = "${model.atlasKey}/${type.atlasKey}"
+        nextAnimation = "$atlasKey/${type.atlasKey}"
     }
 
     fun clearAnimation() {

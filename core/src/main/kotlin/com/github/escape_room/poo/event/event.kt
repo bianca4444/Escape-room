@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.github.escape_room.poo.component.AnimationModel
+
 import com.github.escape_room.poo.dialog.Dialog
 
 
@@ -12,10 +12,18 @@ fun Stage.fire(event: Event) = this.root.fire(event)
 
 data class MapChangeEvent(val map: TiledMap) : Event()
 
-class CollisionDespawnEvent(val cell:Cell) : Event()
+data class CollisionDespawnEvent(val cell: Cell) : Event()
 
-class EntityAttackEvent(val model: AnimationModel):Event()
+data class EntityAttackEvent(val atlasKey: String) : Event()
 
-class EntityLootEvent(val model: AnimationModel):Event()
+data class EntityDeathEvent(val atlasKey: String) : Event()
 
-class EntityDialogEvent(val dialog: Dialog): Event()
+class EntityLootEvent : Event()
+
+data class EntityDialogEvent(val dialog: Dialog) : Event()
+
+
+
+class GamePauseEvent : Event()
+
+class GameResumeEvent : Event()

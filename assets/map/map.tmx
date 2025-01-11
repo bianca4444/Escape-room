@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="20">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="22">
  <properties>
   <property name="music" value="audio/fields.ogg"/>
  </properties>
  <tileset firstgid="1" source="map.tsx"/>
- <tileset firstgid="101" name="entities" tilewidth="48" tileheight="48" tilecount="2" columns="0">
+ <tileset firstgid="101" name="entities" tilewidth="48" tileheight="48" tilecount="3" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="1">
    <image source="../../assets_raw/player/idle_side_00.png" width="48" height="48"/>
   </tile>
   <tile id="2">
    <image source="../graphics/chest.png" width="16" height="16"/>
+  </tile>
+  <tile id="3">
+   <image source="../graphics/slime.png" width="32" height="32"/>
   </tile>
  </tileset>
  <layer id="1" name="ground" width="30" height="20">
@@ -29,11 +32,14 @@
   </data>
  </layer>
  <objectgroup id="5" name="entities">
-  <object id="1" type="Player" gid="102" x="32.9999" y="307" width="48" height="48"/>
-  <object id="13" type="Chest" gid="103" x="16" y="224" width="16" height="16"/>
-  <object id="15" type="Chest" gid="103" x="80" y="224" width="16" height="16"/>
-  <object id="16" type="Chest" gid="103" x="128" y="272" width="16" height="16"/>
-  <object id="17" type="Chest" gid="103" x="208" y="224" width="16" height="16"/>
-  <object id="19" name="Q" type="Q" gid="103" x="128" y="144" width="16" height="16"/>
+  <object id="1" name="PLAYER" type="PLAYER" gid="102" x="31.7499" y="306.75" width="48" height="48"/>
+  <object id="13" name="CHEST" type="CHEST" gid="103" x="16" y="224" width="16" height="16"/>
+  <object id="15" name="CHEST" type="CHEST" gid="103" x="80" y="224" width="16" height="16"/>
+  <object id="20" name="BLOB" type="BLOB" gid="104" x="56" y="180.75" width="32" height="32">
+   <properties>
+    <property name="color" type="color" value="#ffaaaaff"/>
+   </properties>
+  </object>
  </objectgroup>
+ <objectgroup id="7" name="portals"/>
 </map>

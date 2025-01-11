@@ -8,19 +8,19 @@ import com.github.quillraven.fleks.AllOf
 import com.github.quillraven.fleks.ComponentMapper
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
+import com.github.quillraven.fleks.Qualifier
 
-@AllOf ([TiledComponent::class])
-
+@AllOf([TiledComponent::class])
 class CollisionDespawnSystem(
+    @Qualifier("GameStage") private val stage: Stage,
     private val tiledCmps: ComponentMapper<TiledComponent>,
-    private val stage: Stage
 ) : IteratingSystem() {
     override fun onTickEntity(entity: Entity) {
-        with(tiledCmps[entity]) {
-            if(nearbyEntities.isEmpty()) {
-                stage.fire(CollisionDespawnEvent(cell))
-                world.remove(entity)
-            }
+        // for existing collision tiled entities we check if there are no nearby entities anymore
+        // and remove them in that case
+        if (tiledCmps[entity].nearbyEntities.isEmpty()) {
+            stage.fire(CollisionDespawnEvent(tiledCmps[entity].cell))
+            world.remove(entity)
         }
     }
 }

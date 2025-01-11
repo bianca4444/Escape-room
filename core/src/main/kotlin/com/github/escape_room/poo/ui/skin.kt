@@ -10,12 +10,14 @@ import ktx.assets.disposeSafely
 import ktx.scene2d.Scene2DSkin
 import ktx.style.*
 
-
 enum class Drawables(
     val atlasKey: String,
 ) {
+    PLAYER("player"),
+    SLIME("slime"),
     FRAME_BGD("frame_bgd"),
     FRAME_FGD("frame_fgd"),
+
 }
 
 operator fun Skin.get(drawable: Drawables): Drawable = this.getDrawable(drawable.atlasKey)

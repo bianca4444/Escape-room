@@ -2,7 +2,6 @@ package com.github.escape_room.poo.system;
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.math.Path
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.github.quillraven.fleks.ComponentMapper
 import com.github.quillraven.fleks.Entity
@@ -10,43 +9,49 @@ import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.AllOf
 import com.github.escape_room.poo.component.AnimationComponent
 import com.github.escape_room.poo.component.AnimationComponent.Companion.NO_ANIMATION
-import com.github.escape_room.poo.component.imageComponent
+import com.github.escape_room.poo.component.ImageComponent
+import com.github.quillraven.fleks.Qualifier
 import ktx.app.gdxError
 import ktx.collections.map
 import ktx.log.logger
+import kotlin.collections.plusAssign
 
-@AllOf([AnimationComponent::class, imageComponent::class])
+@AllOf(components = [AnimationComponent::class, ImageComponent::class])
 class AnimationSystem(
-    private val textureAtlas: TextureAtlas,
+    @Qualifier("GameAtlas") private val atlas: TextureAtlas,
     private val animationCmps: ComponentMapper<AnimationComponent>,
-    private val imageCmps: ComponentMapper<imageComponent>,
+    private val imageCmps: ComponentMapper<ImageComponent>,
 ) : IteratingSystem() {
     private val cachedAnimations = mutableMapOf<String, Animation<TextureRegionDrawable>>()
 
     override fun onTickEntity(entity: Entity) {
         val aniCmp = animationCmps[entity]
 
-            if(aniCmp.nextAnimation== NO_ANIMATION){
-                aniCmp.stateTime+= deltaTime
+        with(imageCmps[entity]) {
+            image.drawable = if (aniCmp.nextAnimation != NO_ANIMATION) {
+                aniCmp.run {
+                    animation = animation(aniCmp.nextAnimation)
+                    clearAnimation()
+                    stateTime = 0f
+                    animation.playMode = mode
+                    animation.getKeyFrame(0f)
+                }
             } else {
-                aniCmp.animation=animation(aniCmp.nextAnimation)
-                aniCmp.stateTime=0f
-                aniCmp.nextAnimation=NO_ANIMATION
+                aniCmp.run {
+                    stateTime += deltaTime
+                    animation.playMode = mode
+                    animation.getKeyFrame(aniCmp.stateTime)
+                }
             }
-
-            aniCmp.animation.playMode = aniCmp.playMode
-            imageCmps[entity].image.drawable=aniCmp.animation.getKeyFrame(aniCmp.stateTime)
-
-
-
+        }
     }
 
-    private fun animation(aniKeyPath: String): Animation<TextureRegionDrawable> {
-        return cachedAnimations.getOrPut(aniKeyPath) {
-            LOG.debug { "Creating new animation $aniKeyPath" }
-            val regions = textureAtlas.findRegions(aniKeyPath)
+    private fun animation(atlasKey: String): Animation<TextureRegionDrawable> {
+        return cachedAnimations.getOrPut(atlasKey) {
+            LOG.debug { "Creating new animation $atlasKey" }
+            val regions = atlas.findRegions(atlasKey)
             if (regions.isEmpty) {
-                gdxError("There are no texture regions for $aniKeyPath")
+                gdxError("There are no texture regions for $atlasKey")
             }
             Animation(DEFAULT_FRAME_DURATION, regions.map { TextureRegionDrawable(it) })
         }

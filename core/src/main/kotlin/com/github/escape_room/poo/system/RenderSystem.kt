@@ -6,74 +6,69 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.github.escape_room.poo.component.imageComponent
+import com.github.escape_room.poo.component.ImageComponent
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.collection.compareEntity
 import ktx.graphics.use
 import ktx.tiled.forEachLayer
 import com.github.escape_room.poo.event.MapChangeEvent
 import com.badlogic.gdx.scenes.scene2d.Event
-import ktx.assets.disposeSafely
-import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
+import com.github.escape_room.poo.Escape_Room.Companion.UNIT_SCALE
+import kotlin.text.compareTo
 
 
-@AllOf([imageComponent::class])
-
-
+@AllOf(components = [ImageComponent::class])
 class RenderSystem(
-    private val stage: Stage,
-    @Qualifier("uiStage") private val uiStage: Stage,
-    private val imageCmps: ComponentMapper<imageComponent>
+    @Qualifier("GameStage") private val gameStage: Stage,
+    @Qualifier("UiStage") private val uiStage: Stage,
+    private val imageCmps: ComponentMapper<ImageComponent>,
 ) : EventListener, IteratingSystem(
-    comparator = compareEntity {e1,e2 ->imageCmps[e1].compareTo(imageCmps[e2])}
+    comparator = compareEntity { e1, e2 -> imageCmps[e1].compareTo(imageCmps[e2]) }
 ) {
+    private val orthoCam: OrthographicCamera = gameStage.camera as OrthographicCamera
+    private val mapRenderer = OrthogonalTiledMapRenderer(null, UNIT_SCALE, gameStage.batch)
+    private var bgdLayers = mutableListOf<TiledMapTileLayer>()
+    private var fgdLayers = mutableListOf<TiledMapTileLayer>()
 
-    private val bgdLayers = mutableListOf<TiledMapTileLayer>()
-    private val fgdLayers = mutableListOf<TiledMapTileLayer>()
-    private val mapRender = OrthogonalTiledMapRenderer(null,1/16f,stage.batch)
-    private val orthoCam = stage.camera as OrthographicCamera
     override fun onTick() {
         super.onTick()
+        gameStage.viewport.apply()
 
-        with(stage) {
-            viewport.apply()
-
-            AnimatedTiledMapTile.updateAnimationBaseTime()
-            mapRender.setView(orthoCam)
-
-
-            if(bgdLayers.isNotEmpty()) {
-                stage.batch.color=Color.WHITE
-                stage.batch.use(orthoCam.combined) {
-                    bgdLayers.forEach { mapRender.renderTileLayer(it)}
-                }
+        AnimatedTiledMapTile.updateAnimationBaseTime()
+        mapRenderer.setView(orthoCam)
+        if (bgdLayers.isNotEmpty()) {
+            gameStage.batch.color = Color.WHITE
+            gameStage.batch.use(orthoCam.combined) {
+                bgdLayers.forEach { mapRenderer.renderTileLayer(it) }
             }
+        }
 
+        gameStage.run {
             act(deltaTime)
             draw()
+        }
 
-            if(fgdLayers.isNotEmpty()) {
-                stage.batch.color=Color.WHITE
-                stage.batch.use(orthoCam.combined) {
-                    fgdLayers.forEach { mapRender.renderTileLayer(it)}
-                }
+        if (fgdLayers.isNotEmpty()) {
+            gameStage.batch.color = Color.WHITE
+            gameStage.batch.use(orthoCam.combined) {
+                fgdLayers.forEach { mapRenderer.renderTileLayer(it) }
             }
         }
-        //render UI
-        with(uiStage){
+
+
+
+        // render UI
+        uiStage.run {
             viewport.apply()
-            act()
+            act(deltaTime)
             draw()
         }
-    }
-
-    override fun onTickEntity(entity: Entity) {
-        imageCmps[entity].image.toFront()
     }
 
     override fun handle(event: Event?): Boolean {
         if (event is MapChangeEvent) {
+            mapRenderer.map = event.map
             bgdLayers.clear()
             fgdLayers.clear()
             event.map.forEachLayer<TiledMapTileLayer> { layer ->
@@ -87,9 +82,14 @@ class RenderSystem(
         }
         return false
     }
-        override fun onDispose(){
-            mapRender.disposeSafely()
-        }
+
+    override fun onTickEntity(entity: Entity) {
+        imageCmps[entity].image.toFront()
+    }
+
+    override fun onDispose() {
+        mapRenderer.dispose()
+    }
 }
 
 
