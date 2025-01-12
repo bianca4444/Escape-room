@@ -140,6 +140,9 @@ class EntitySpawnSystem(
                 hasLight = true,
             )
 
+
+
+
             type == "BLOB" -> SpawnCfg(
                 atlasKey = "slime",
                 scalePhysic = vec2(0.3f, 0.3f),
@@ -148,6 +151,40 @@ class EntitySpawnSystem(
                 dialogId = DialogId.BLOB,
                 lifeScale = 0f
             )
+
+            type == "BLOB2" -> SpawnCfg(
+                atlasKey = "slime",
+                scalePhysic = vec2(0.2f, 0.3f),
+                physicOffset = vec2(0f, -2f * UNIT_SCALE),
+                hasLight = true,
+                dialogId = DialogId.BLOB2,
+                lifeScale = 0f
+            )
+            type == "BLOB3" -> SpawnCfg(
+                atlasKey = "slime",
+                scalePhysic = vec2(0.2f, 0.3f),
+                physicOffset = vec2(0f, -2f * UNIT_SCALE),
+                hasLight = true,
+                dialogId = DialogId.BLOB3,
+                lifeScale = 0f
+            )
+            type == "BLOB4" -> SpawnCfg(
+                atlasKey = "slime",
+                scalePhysic = vec2(0.2f, 0.3f),
+                physicOffset = vec2(0f, -2f * UNIT_SCALE),
+                hasLight = true,
+                dialogId = DialogId.BLOB4,
+                lifeScale = 0f
+            )
+            type == "BLOB5" -> SpawnCfg(
+                atlasKey = "slime",
+                scalePhysic = vec2(0.2f, 0.3f),
+                physicOffset = vec2(0f, -2f * UNIT_SCALE),
+                hasLight = true,
+                dialogId = DialogId.BLOB5,
+                lifeScale = 0f
+            )
+
 
             type.isNotBlank() -> SpawnCfg(type.lowercase())
             else -> gdxError("SpawnType must be specified")

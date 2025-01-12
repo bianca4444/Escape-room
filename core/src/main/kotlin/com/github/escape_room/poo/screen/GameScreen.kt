@@ -1,3 +1,4 @@
+
 package com.github.escape_room.poo.screen
 
 // Importuri necesare pentru grafică, batch-uri și scene

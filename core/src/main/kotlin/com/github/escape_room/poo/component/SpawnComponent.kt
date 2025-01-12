@@ -32,5 +32,6 @@ data class SpawnCfg(
 data class SpawnComponent(
     var type: String = "",
     var location: Vector2 = vec2(),
-    var color: Color = Color.WHITE
+    var color: Color = Color.WHITE,
+    var numberOfInstances: Int = 1 // Adăugat pentru a spawn-a mai multe instanțe
 )

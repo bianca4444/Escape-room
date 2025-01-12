@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="22">
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="26">
  <properties>
   <property name="music" value="audio/fields.ogg"/>
  </properties>
@@ -18,17 +18,17 @@
  </tileset>
  <layer id="1" name="ground" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJzzZ2Bg8B/Fo3gUU4wZgZiJRCxAJXslSMSj9g4de/FhCRqbTSoetXfU3lF7ERgAP9+UuA==
+   eJztk7EOAiEMQDkUZ9ng4niLiY7oB+jO//+NXNImTcORovUmhpemhPRRKNkYkwdiDoR/u46ECFjIMZ6UnRNxIb6Clpf26MHnIF/jjXmtght79CwubA/1RoF3gvO1iCx3St7Qybnh3Nv7AN+zcBe+H9a7fOG9ggfnwFbqu0r/v/bL5w9nHKOD9VfhXZgFdxEEe1p/u8ZMavey5V3vO5GY2Bp9dy1vL8M7vNreD6WSeus=
   </data>
  </layer>
  <layer id="3" name="bgd_1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMBiBPBAz4cEMOMQFqGAvMmDCwWZGU0cNe9H9hs1edEAv/9LS3mgobYRmrxEDJqC2f5EBun+R7aeGvdEEVWECSu3VBGItMrAehfYCAFKSBT4=
+   eJztkz0KhDAQhUfdqWy2sbHZ2kUsvMLuIRa8/z1USGD2OYl/Eys/eETCwMeLCdHNHh4iKcnA9XP7DPu1sbfcOGfl1c6zhUjYwF0dnLHqzBDpZGXW+h8jWtcrvP6usVixfwoa5/G9NWfK/tKr3YXPlK/zv6bkkVBg/xnxruG9kjzwXcBcyItvWgvRf9+YF9G8e9jaN6V3cGsP3p6WWPeVYF/pt/AOq1NLznrnN/8+kO6kdwQNzwq/
   </data>
  </layer>
  <layer id="4" name="fgd_1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwUAAx4F2wCigGQAAgjwAQg==
+   eJxjYBgFxAJGKO1NR7uGM0D3Y8yAuGIUoIM4GqvHB3SBWI+K5uGzBx+gRx4fCEDtPEZMOGlS2c7hBhwH2gGjgGYAAKLVA0s=
   </data>
  </layer>
  <objectgroup id="5" name="entities">
@@ -36,6 +36,26 @@
   <object id="13" name="CHEST" type="CHEST" gid="103" x="16" y="224" width="16" height="16"/>
   <object id="15" name="CHEST" type="CHEST" gid="103" x="80" y="224" width="16" height="16"/>
   <object id="20" name="BLOB" type="BLOB" gid="104" x="56" y="180.75" width="32" height="32">
+   <properties>
+    <property name="color" type="color" value="#ffaaaaff"/>
+   </properties>
+  </object>
+  <object id="22" name="BLOB2" type="BLOB" gid="104" x="262.883" y="71.1857" width="32" height="32">
+   <properties>
+    <property name="color" type="color" value="#ffaaaaff"/>
+   </properties>
+  </object>
+  <object id="23" name="BLOB3" type="BLOB" gid="104" x="343.629" y="118.055" width="32" height="32">
+   <properties>
+    <property name="color" type="color" value="#ffaaaaff"/>
+   </properties>
+  </object>
+  <object id="24" name="BLOB4" type="BLOB" gid="104" x="279.824" y="163.814" width="32" height="32">
+   <properties>
+    <property name="color" type="color" value="#ffaaaaff"/>
+   </properties>
+  </object>
+  <object id="25" name="BLOB5" type="BLOB" gid="104" x="407.434" y="198.617" width="32" height="32">
    <properties>
     <property name="color" type="color" value="#ffaaaaff"/>
    </properties>
