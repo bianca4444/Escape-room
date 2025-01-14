@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="26">
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="27">
  <properties>
   <property name="music" value="audio/fields.ogg"/>
  </properties>
@@ -31,7 +31,7 @@
    eJxjYBgFxAJGKO1NR7uGM0D3Y8yAuGIUoIM4GqvHB3SBWI+K5uGzBx+gRx4fCEDtPEZMOGlS2c7hBhwH2gGjgGYAAKLVA0s=
   </data>
  </layer>
- <objectgroup id="5" name="entities">
+ <objectgroup id="5" name="entities" offsetx="0" offsety="-0.979192">
   <object id="1" name="PLAYER" type="PLAYER" gid="102" x="31.7499" y="306.75" width="48" height="48"/>
   <object id="13" name="CHEST" type="CHEST" gid="103" x="16" y="224" width="16" height="16"/>
   <object id="15" name="CHEST" type="CHEST" gid="103" x="80" y="224" width="16" height="16"/>
@@ -55,7 +55,12 @@
     <property name="color" type="color" value="#ffaaaaff"/>
    </properties>
   </object>
-  <object id="25" name="BLOB5" type="BLOB" gid="104" x="407.434" y="198.617" width="32" height="32">
+  <object id="26" name="BLOB5" type="BLOB" gid="104" x="407.434" y="198.617" width="32" height="32">
+   <properties>
+    <property name="color" type="color" value="#ffaaaaff"/>
+   </properties>
+  </object>
+  <object id="25" name="BLOB6" type="BLOB" gid="104" x="183.43" y="260.62" width="32" height="32">
    <properties>
     <property name="color" type="color" value="#ffaaaaff"/>
    </properties>

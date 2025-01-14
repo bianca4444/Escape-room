@@ -184,6 +184,14 @@ class EntitySpawnSystem(
                 dialogId = DialogId.BLOB5,
                 lifeScale = 0f
             )
+            type == "BLOB6" -> SpawnCfg(
+                atlasKey = "slime",
+                scalePhysic = vec2(0.2f, 0.3f),
+                physicOffset = vec2(0f, -2f * UNIT_SCALE),
+                hasLight = true,
+                dialogId = DialogId.BLOB6,
+                lifeScale = 0f
+            )
 
 
             type.isNotBlank() -> SpawnCfg(type.lowercase())

@@ -307,6 +307,13 @@ class DialogSystem(
                         option("Finish") { action = { this@dialog.end() } }
                     }
                 }
+                DialogId.BLOB6 -> dialog(id.name) {
+                    node(0, "Hello!"){
+                        option("Hi"){
+                            action = { this@dialog.end() }
+                        }
+                    }
+                }
 
                 else -> gdxError("No dialog configured for $id.")
             }

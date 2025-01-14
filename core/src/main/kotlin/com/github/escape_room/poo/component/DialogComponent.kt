@@ -9,7 +9,8 @@ enum class DialogId {
     BLOB2,
     BLOB3,
     BLOB4,
-    BLOB5
+    BLOB5,
+    BLOB6
 
 }
 
