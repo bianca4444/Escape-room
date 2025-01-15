@@ -27,7 +27,7 @@ enum class Fonts(
     val atlasRegionKey: String,
     val scaling: Float
 ) {
-    DEFAULT("fnt_white", 0.25f),
+    DEFAULT("fnt_white", 0.20f),
     BIG("fnt_white", 0.5f),
     BIGGER("fnt_white", 0.75f);
 
