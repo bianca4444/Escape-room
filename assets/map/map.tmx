@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="27">
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="28">
  <properties>
   <property name="music" value="audio/fields.ogg"/>
  </properties>
@@ -18,20 +18,20 @@
  </tileset>
  <layer id="1" name="ground" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJztk7EOAiEMQDkUZ9ng4niLiY7oB+jO//+NXNImTcORovUmhpemhPRRKNkYkwdiDoR/u46ECFjIMZ6UnRNxIb6Clpf26MHnIF/jjXmtght79CwubA/1RoF3gvO1iCx3St7Qybnh3Nv7AN+zcBe+H9a7fOG9ggfnwFbqu0r/v/bL5w9nHKOD9VfhXZgFdxEEe1p/u8ZMavey5V3vO5GY2Bp9dy1vL8M7vNreD6WSeus=
+   eJztk8EKwyAMQNXOnuutlh13KbRHu8/o///NVkggBCexS3uy8AgRyTOa7saYvSGmI1ztehAi4CDH2Cs7LXEhIYOWl/YYwOchP+LCvE7BjT0GFl9sD/VGgdfC+UpElnsl71jJUHDe7d3A9/6yCt8P6z1PeGfw4By4TH2f6f/ffvn84Yxj9LCO3yS4i1Gwp/Rv55hI7Vp+eY/7TiQmtkbfXctbS/M2r7b3A6XwemQ=
   </data>
  </layer>
  <layer id="3" name="bgd_1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJztkz0KhDAQhUfdqWy2sbHZ2kUsvMLuIRa8/z1USGD2OYl/Eys/eETCwMeLCdHNHh4iKcnA9XP7DPu1sbfcOGfl1c6zhUjYwF0dnLHqzBDpZGXW+h8jWtcrvP6usVixfwoa5/G9NWfK/tKr3YXPlK/zv6bkkVBg/xnxruG9kjzwXcBcyItvWgvRf9+YF9G8e9jaN6V3cGsP3p6WWPeVYF/pt/AOq1NLznrnN/8+kO6kdwQNzwq/
+   eJztk80KwjAQhNfqevHSixcvnhXpoU8j9P3fQwMJjNNN+rfpyQ+GlLDwMWki8mcJJ0hNDuR6x32l/Zuz9zJzzstrneeLgqiD+7pyxquzUtCpxqz3P2asrnt4011TWLl/DR7Rk3pbTnxnZ2c/enN3IRDO//5NU4hk9tuCd4rkRZrM95Hmcl5+01ZEfvuWvIzlXcLcvjW9Q1x78vYyxrsvwn3R7+EdJqfGbPWGN/9ckW6j9wPargos
   </data>
  </layer>
  <layer id="4" name="fgd_1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFxAJGKO1NR7uGM0D3Y8yAuGIUoIM4GqvHB3SBWI+K5uGzBx+gRx4fCEDtPEZMOGlS2c7hBhwH2gGjgGYAAKLVA0s=
+   eJxjYBgFxAJGKO1NR7uGM0D3Y8yAuGIUoIM4GqvHB3SBWI+K5uGzBx+gRx7HBZyB2IVGZlM7jxETTppUtnO4AceBdsAooBkAAKJ3A9I=
   </data>
  </layer>
- <objectgroup id="5" name="entities" offsetx="0" offsety="-0.979192">
+ <objectgroup id="5" name="entities" offsetx="0" offsety="-2.93758">
   <object id="1" name="PLAYER" type="PLAYER" gid="102" x="31.7499" y="306.75" width="48" height="48"/>
   <object id="13" name="CHEST" type="CHEST" gid="103" x="16" y="224" width="16" height="16"/>
   <object id="15" name="CHEST" type="CHEST" gid="103" x="80" y="224" width="16" height="16"/>
@@ -61,6 +61,11 @@
    </properties>
   </object>
   <object id="25" name="BLOB6" type="BLOB" gid="104" x="183.43" y="260.62" width="32" height="32">
+   <properties>
+    <property name="color" type="color" value="#ffaaaaff"/>
+   </properties>
+  </object>
+  <object id="27" name="BLOB7" type="BLOB" gid="104" x="434.43" y="200.62" width="32" height="32">
    <properties>
     <property name="color" type="color" value="#ffaaaaff"/>
    </properties>

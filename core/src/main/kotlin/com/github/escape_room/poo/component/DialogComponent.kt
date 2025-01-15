@@ -10,8 +10,8 @@ enum class DialogId {
     BLOB3,
     BLOB4,
     BLOB5,
-    BLOB6
-
+    BLOB6,
+    BLOB7
 }
 
 data class DialogComponent(

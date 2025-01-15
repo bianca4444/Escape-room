@@ -25,7 +25,7 @@ class DialogView(
 
     init {
         setFillParent(true)
-        this.alpha = 0f
+        this.alpha = 1f
 
         table {
             background = skin[Drawables.FRAME_BGD]

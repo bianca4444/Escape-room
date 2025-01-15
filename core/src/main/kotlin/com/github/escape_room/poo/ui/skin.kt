@@ -20,6 +20,7 @@ enum class Drawables(
 
 }
 
+
 operator fun Skin.get(drawable: Drawables): Drawable = this.getDrawable(drawable.atlasKey)
 
 enum class Fonts(
@@ -52,6 +53,10 @@ enum class Buttons {
 
 fun loadSkin() {
     Scene2DSkin.defaultSkin = skin(TextureAtlas("ui/ui.atlas")) { skin ->
+        label(Labels.FRAME.skinKey){
+            font = BitmapFont(Gdx.files.internal("ui/fnt_white.fnt"), skin.getRegion("fnt_white"))
+            background = skin[Drawables.FRAME_FGD]
+        }
         loadFontSkin(skin)
         loadLabelSkin(skin)
         loadButtonSkin(skin)

@@ -20,13 +20,12 @@ import java.sql.Blob
 // Variabila globală care contorizează câte chei ai
 var keyCount = 0
 
+var slimeCount =0
+
 // Funcție care incrementează contorul de chei
 fun incrementKeyCount() {
     keyCount++
     println("Ai mai luat o cheie!")
-    if (keyCount >= 3) {
-        println("Felicitări! Ai câștigat jocul!")
-    }
 }
 
 @AllOf([DialogComponent::class])
@@ -65,7 +64,8 @@ class DialogSystem(
 
             stage.fire(EntityDialogEvent(dialog))
 
-            hasInteracted = true
+            if(dialogId == DialogId.BLOB7) hasInteracted = false
+            else hasInteracted = true
         }
     }
 
@@ -73,7 +73,7 @@ class DialogSystem(
         return dialogCache.getOrPut(id) {
             when (id) {
                 DialogId.BLOB -> dialog(id.name) {
-
+                    slimeCount++
                     node(0, "Hello adventurer! Can you please take care of my crazy blue brothers?") {
                         option("But why?") {
                             action = { this@dialog.goToNode(1) }
@@ -124,7 +124,7 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB2 -> dialog(id.name) {
-
+                    slimeCount++
                     node(0, "Hello adventurer! The green goblins are causing chaos. Can you help us?") {
                         option("What happened?") {
                             action = { this@dialog.goToNode(1) }
@@ -171,7 +171,7 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB3 -> dialog(id.name) {
-
+                    slimeCount++
                     node(0, "Greetings, brave adventurer! The fiery beasts in the volcano need your help.") {
                         option("Why are they so aggressive?") {
                             action = { this@dialog.goToNode(1) }
@@ -217,7 +217,7 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB4 -> dialog(id.name) {
-
+                    slimeCount++
                     node(0, "Hello, adventurer! The forest spirits are angry and attacking everyone.") {
                         option("What triggered their anger?") {
                             action = { this@dialog.goToNode(1) }
@@ -263,7 +263,7 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB5 -> dialog(id.name) {
-
+                    slimeCount++
                     node(0, "Hello, adventurer! The shadow creatures are causing havoc in the town.") {
                         option("Why are they attacking?") {
                             action = { this@dialog.goToNode(1) }
@@ -308,11 +308,37 @@ class DialogSystem(
                     }
                 }
                 DialogId.BLOB6 -> dialog(id.name) {
+                    slimeCount++
                     node(0, "Hello!"){
                         option("Hi"){
                             action = { this@dialog.end() }
                         }
                     }
+                }
+
+                DialogId.BLOB7 -> dialog(id.name) {
+
+                    if(keyCount < 2 && slimeCount < 6)
+                    {
+                        node(0, "Go back and search some more") {
+                            option("Ok"){
+                                action = {this@dialog.end()}
+                            }
+                        }
+                    } else if (keyCount < 2 && slimeCount == 5){
+                        node(0, "Game lost!") {
+                            option("Try again"){
+                                action = {this@dialog.end()}
+                            }
+                        }
+                    }else {
+                        node(0, "You win!") {
+                            option("Great!"){
+                                action = {this@dialog.end()}
+                            }
+                        }
+                    }
+
                 }
 
                 else -> gdxError("No dialog configured for $id.")
