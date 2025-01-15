@@ -100,9 +100,9 @@ class GameScreen(game: Escape_Room) : KtxScreen {
                     }
                 }
                 node(2, "Team Leader - Dumitrescu Bianca Alexandra – dumitrescu.bianca@stud.acs.upb.ro \n" +
-                        "Joița Fabian Gabriel – joitafabian@gmail.com \n" +
+                        "Joița Fabian Gabriel – fabian.joita@stud.acs.upb.ro \n" +
                         "Jugulete George Marius Alexandru – george.jugulete@stud.acs.upb.ro\n" +
-                        "Manescu Daria Ioana – dariamanescuioana8@gmail.com\n" +
+                        "Manescu Daria Ioana – daria_ioana.manescu@stud.energ.upb.ro\n" +
                         "Sandu Andreea Diana – andreea_diana.sandu@stud.acs.upb.ro ") {
                     option("Next") {
                         action = { this@dialog.goToNode(3) }

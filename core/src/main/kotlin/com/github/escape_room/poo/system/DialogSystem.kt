@@ -309,7 +309,6 @@ class DialogSystem(
                     node(4, "What is the definition of green / sustainable agriculture?") {
                         option("See choices") {
                             action = {
-                                incrementSlimeCount()
                                 this@dialog.goToNode(5) }
                         }
                     }
@@ -399,10 +398,9 @@ class DialogSystem(
                         }
                         option("False") { action = { this@dialog.goToNode(5) } }
                     }
-                    node(5, "4.\tWhat are the urgent objectives of green / sustainable agriculture?") {
+                    node(5, "What are the urgent objectives of green / sustainable agriculture?") {
                         option("See choices") {
                             action = {
-                                incrementSlimeCount()
                                 this@dialog.goToNode(6) }
                         }
                     }
@@ -495,7 +493,6 @@ class DialogSystem(
                     node(5, "6.\tWhat is the target of European Green Deal regarding the Organic farming in connection with the EU Organic farming Action Plan?") {
                         option("See choices") {
                             action = {
-                                incrementSlimeCount()
                                 this@dialog.goToNode(6) }
                         }
                     }
@@ -534,7 +531,6 @@ class DialogSystem(
                     node(10, "7.\tIn which main domain of activity, the EU Commission intend to assure important budgetary allowance with the aim to achieve the EU Organic farming Action Plan’ objectives?"){
                         option("See choices") {
                             action = {
-                                incrementSlimeCount()
                                 this@dialog.goToNode(13) }
                         }
                     }
