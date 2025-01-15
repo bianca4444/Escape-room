@@ -73,10 +73,11 @@ class DialogSystem(
         return dialogCache.getOrPut(id) {
             when (id) {
                 DialogId.BLOB -> dialog(id.name) {
-                    slimeCount++
+
                     node(0, "Hello adventurer! Can you please take care of my crazy blue brothers?") {
                         option("But why?") {
                             action = { this@dialog.goToNode(1) }
+                            slimeCount++
                         }
                     }
                     node(1, "A dark magic has possessed them. There is no cure - KILL EM ALL!!!") {
@@ -124,10 +125,11 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB2 -> dialog(id.name) {
-                    slimeCount++
+
                     node(0, "Hello adventurer! The green goblins are causing chaos. Can you help us?") {
                         option("What happened?") {
                             action = { this@dialog.goToNode(1) }
+                            slimeCount++
                         }
                     }
                     node(1, "They've been enchanted by a powerful druid. Only a skilled warrior can stop them.") {
@@ -171,10 +173,11 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB3 -> dialog(id.name) {
-                    slimeCount++
+
                     node(0, "Greetings, brave adventurer! The fiery beasts in the volcano need your help.") {
                         option("Why are they so aggressive?") {
                             action = { this@dialog.goToNode(1) }
+                            slimeCount++
                         }
                     }
                     node(1, "The volcanic spirit has been disturbed. Only someone with courage can calm the beasts.") {
@@ -217,10 +220,11 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB4 -> dialog(id.name) {
-                    slimeCount++
+
                     node(0, "Hello, adventurer! The forest spirits are angry and attacking everyone.") {
                         option("What triggered their anger?") {
                             action = { this@dialog.goToNode(1) }
+                            slimeCount++
                         }
                     }
                     node(1, "An ancient artifact has been stolen from their sacred grove.") {
@@ -263,10 +267,11 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB5 -> dialog(id.name) {
-                    slimeCount++
+
                     node(0, "Hello, adventurer! The shadow creatures are causing havoc in the town.") {
                         option("Why are they attacking?") {
                             action = { this@dialog.goToNode(1) }
+                            slimeCount++
                         }
                     }
                     node(1, "They have been summoned by a dark sorcerer. We need your help!") {
@@ -308,10 +313,11 @@ class DialogSystem(
                     }
                 }
                 DialogId.BLOB6 -> dialog(id.name) {
-                    slimeCount++
+
                     node(0, "Hello!"){
                         option("Hi"){
                             action = { this@dialog.end() }
+                            slimeCount++
                         }
                     }
                 }
@@ -325,15 +331,15 @@ class DialogSystem(
                                 action = {this@dialog.end()}
                             }
                         }
-                    } else if (keyCount < 2 && slimeCount == 5){
-                        node(0, "Game lost!") {
-                            option("Try again"){
+                    } else if (keyCount >= 3){
+                        node(0, "You win!") {
+                            option("Great!"){
                                 action = {this@dialog.end()}
                             }
                         }
-                    }else {
-                        node(0, "You win!") {
-                            option("Great!"){
+                    }else{
+                        node(0, "Game lost!") {
+                            option("Try again"){
                                 action = {this@dialog.end()}
                             }
                         }
