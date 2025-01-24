@@ -69,6 +69,7 @@ private fun loadFontSkin(skin: Skin) {
             BitmapFont(Gdx.files.internal(fnt.fontPath), skin.getRegion(fnt.atlasRegionKey)).apply {
                 data.markupEnabled = true
                 data.setScale(fnt.scaling)
+                color = Color.BLACK
             }
     }
 }
@@ -82,6 +83,7 @@ private fun @SkinDsl Skin.loadButtonSkin(skin: Skin) {
 private fun @SkinDsl Skin.loadLabelSkin(skin: Skin) {
     label(Labels.FRAME.skinKey) {
         font = skin[Fonts.DEFAULT]
+        fontColor = Color.BLACK
         background = skin[Drawables.FRAME_FGD].apply {
             leftWidth = 2f
             rightWidth = 2f
@@ -90,7 +92,7 @@ private fun @SkinDsl Skin.loadLabelSkin(skin: Skin) {
     }
     label(Labels.TITLE.skinKey) {
         font = skin[Fonts.BIG]
-        fontColor = Color.SLATE
+        fontColor = Color.RED
         background = skin[Drawables.FRAME_FGD].apply {
             leftWidth = 2f
             rightWidth = 2f

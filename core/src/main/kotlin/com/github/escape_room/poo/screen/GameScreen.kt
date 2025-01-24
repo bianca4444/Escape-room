@@ -28,7 +28,10 @@ import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
 import ktx.log.logger
+import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.actors
+import timer.Timer
+
 
 // Clasa care reprezintă ecranul principal al jocului
 class GameScreen(game: Escape_Room) : KtxScreen {
@@ -74,6 +77,7 @@ class GameScreen(game: Escape_Room) : KtxScreen {
         }
     }
 
+    private lateinit var timerView: TimerView
     init {
         loadSkin()
         eWorld.systems.forEach { sys ->
@@ -85,7 +89,18 @@ class GameScreen(game: Escape_Room) : KtxScreen {
         gdxInputProcessor(uiStage)
 
         // UI
+
         uiStage.actors {
+
+            timerView = timerView(initialTime = 300f,skin = Scene2DSkin.defaultSkin,onTimeUp = {
+                println("Timpul s-a terminat!")
+                // Aici poți pune ce vrei să se întâmple când timpul ajunge la 0
+                // Poți afișa un ecran de "Game Over", opri jocul, etc.
+            }) {
+                setPosition(10f, 80f)
+                width = 200f
+                height = 50f
+            }
             dialogView(DialogModel(gameStage))
         }
             val testDialog: Dialog = dialog("testDialog") {
@@ -100,7 +115,7 @@ class GameScreen(game: Escape_Room) : KtxScreen {
                     }
                 }
                 node(2, "Team Leader - Dumitrescu Bianca Alexandra – dumitrescu.bianca@stud.acs.upb.ro \n" +
-                        "Joița Fabian Gabriel – fabian.joita@stud.acs.upb.ro \n" +
+                        "Joita Fabian Gabriel – fabian.joita@stud.acs.upb.ro \n" +
                         "Jugulete George Marius Alexandru – george.jugulete@stud.acs.upb.ro\n" +
                         "Manescu Daria Ioana – daria_ioana.manescu@stud.energ.upb.ro\n" +
                         "Sandu Andreea Diana – andreea_diana.sandu@stud.acs.upb.ro ") {
@@ -129,6 +144,9 @@ class GameScreen(game: Escape_Room) : KtxScreen {
         val dt = delta.coerceAtMost(0.25f)
         GdxAI.getTimepiece().update(dt)
         eWorld.update(dt)
+        super.render(delta)
+        timerView.update(delta)
+
     }
 
     // Metodă apelată pentru eliberarea resurselor când ecranul este distrus
