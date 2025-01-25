@@ -3,10 +3,14 @@ package com.github.escape_room.poo.screen
 
 // Importuri necesare pentru grafică, batch-uri și scene
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ai.GdxAI
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.EventListener
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.utils.Align
 import com.github.quillraven.fleks.world
 import com.github.escape_room.poo.Escape_Room
 import com.github.escape_room.poo.component.ImageComponent.Companion.ImageComponentListener
@@ -20,6 +24,7 @@ import com.github.escape_room.poo.event.fire
 import com.github.escape_room.poo.input.PlayerInputProcessor
 import com.github.escape_room.poo.input.gdxInputProcessor
 import com.github.escape_room.poo.system.*
+import com.github.escape_room.poo.ui.Labels
 import com.github.escape_room.poo.ui.disposeSkin
 import com.github.escape_room.poo.ui.loadSkin
 import com.github.escape_room.poo.ui.model.DialogModel
@@ -30,6 +35,7 @@ import ktx.box2d.createWorld
 import ktx.log.logger
 import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.actors
+import ktx.scene2d.label
 import timer.Timer
 
 
@@ -41,8 +47,8 @@ class GameScreen(game: Escape_Room) : KtxScreen {
     private val phWorld = createWorld(gravity = Vector2.Zero).apply {
         autoClearForces = false
     }
+    var gameOver = false
     // Textură ce va fi desenată pe ecran
-
     private val eWorld = world {
         injectables {
             add(phWorld)
@@ -90,12 +96,13 @@ class GameScreen(game: Escape_Room) : KtxScreen {
 
         // UI
 
+
+
         uiStage.actors {
 
-            timerView = timerView(initialTime = 300f,skin = Scene2DSkin.defaultSkin,onTimeUp = {
-                println("Timpul s-a terminat!")
-                // Aici poți pune ce vrei să se întâmple când timpul ajunge la 0
-                // Poți afișa un ecran de "Game Over", opri jocul, etc.
+
+            timerView = timerView(initialTime = 1200f,skin = Scene2DSkin.defaultSkin,onTimeUp = {
+                gameOver = true
             }) {
                 setPosition(10f, 80f)
                 width = 200f
@@ -134,6 +141,8 @@ class GameScreen(game: Escape_Room) : KtxScreen {
             gameStage.fire(EntityDialogEvent(testDialog))
 
     }
+
+
         // Metodă apelată când ecranul devine activ
         override fun show() {
             eWorld.system<PortalSystem>().setMap("map/map.tmx")
@@ -141,11 +150,15 @@ class GameScreen(game: Escape_Room) : KtxScreen {
         }
 
     override fun render(delta: Float) {
+
         val dt = delta.coerceAtMost(0.25f)
         GdxAI.getTimepiece().update(dt)
         eWorld.update(dt)
         super.render(delta)
+
         timerView.update(delta)
+        if(gameOver)
+            timerView.gameOver(gameStage)
 
     }
 

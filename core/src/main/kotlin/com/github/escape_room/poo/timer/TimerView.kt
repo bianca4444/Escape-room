@@ -1,9 +1,14 @@
 package com.github.escape_room.poo.ui.view
 
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Align
+import com.github.escape_room.poo.dialog.Dialog
+import com.github.escape_room.poo.dialog.dialog
+import com.github.escape_room.poo.event.EntityDialogEvent
+import com.github.escape_room.poo.event.fire
 import com.github.escape_room.poo.ui.Drawables
 import com.github.escape_room.poo.ui.Labels
 import com.github.escape_room.poo.ui.get
@@ -44,6 +49,22 @@ class TimerView(
         val seconds = (time % 60).toInt()
         return "%02d:%02d".format(minutes, seconds)
     }
+
+
+
+
+    fun gameOver(stage: Stage){
+        val testDialog: Dialog = dialog("testDialog") {
+            node(0, "Timpul a expirat, Game Over") {
+                option("") {
+                    action = { this@dialog.end() }
+                }
+            }
+        }
+        testDialog.start()
+        stage.fire(EntityDialogEvent(testDialog))
+    }
+
 }
 
 @Scene2dDsl
