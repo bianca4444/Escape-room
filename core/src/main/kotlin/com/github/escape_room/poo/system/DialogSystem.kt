@@ -19,7 +19,7 @@ import java.sql.Blob
 
 // Variabila globală care contorizează câte chei ai
 var keyCount = 0
-
+var questionCount = 0
 var slimeCount =0
 
 // Funcție care incrementează contorul de chei
@@ -34,6 +34,12 @@ fun incrementSlimeCount() {
     println("Ai vorbit cu slime.")
     println(slimeCount)
 }
+fun incrementQuestionCount() {
+    questionCount++
+    println("Ai mai raspuns corect la o intrebare")
+    println(questionCount)
+}
+
 
 @AllOf([DialogComponent::class])
 class DialogSystem(
@@ -80,81 +86,98 @@ class DialogSystem(
         return dialogCache.getOrPut(id) {
             when (id) {
                 DialogId.BLOB -> dialog(id.name) {
-
-                    node(0, "Circular Economy Action Plan is a product policy framework that will make sustainable products, services, and business models the norm and transform consumption patterns so that no waste is produced  The main proposed actions for this aim are the following: Designing sustainable products, Empowering consumers and public buyers, Circularity in production processes") {
-                        option("True") {
+                    node(0,"The following questions belong to Module 3."){
+                        option("Continue"){
                             action = {
-                                incrementSlimeCount()
-                                this@dialog.goToNode(1) }
-                        }
-                        option("False") {
-                            action = {this@dialog.goToNode(11) }
+                                this@dialog.goToNode(1)
+                            }
                         }
                     }
-                    node(1, "Circular Economy Action Plan is a product policy framework that will make sustainable products, services, and business models the norm and transform consumption patterns so that no waste is produced  The main proposed actions for this aim are the following: Designing sustainable products and unuse the circularity in the production processes") {
+                    node(1, "Circular Economy Action Plan is a product policy framework that will make sustainable products, services, and business models the norm and transform consumption patterns so that no waste is produced  The main proposed actions for this aim are the following: Designing sustainable products, Empowering consumers and public buyers, Circularity in production processes") {
                         option("True") {
-                            action = {this@dialog.goToNode(11) }
-                        }
-                        option("False") {
                             action = {
+                                incrementQuestionCount()
+                                incrementSlimeCount()
                                 this@dialog.goToNode(2) }
                         }
+                        option("False") {
+                            action = {this@dialog.goToNode(11) }
+                        }
                     }
-                    node(2, "Bio-based economy is synonymous with bioeconomy or biotechonomy ") {
+                    node(2, "Circular Economy Action Plan is a product policy framework that will make sustainable products, services, and business models the norm and transform consumption patterns so that no waste is produced  The main proposed actions for this aim are the following: Designing sustainable products and unuse the circularity in the production processes") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(3)
+                                this@dialog.goToNode(11)
+                            }
+                        }
+                        option("False") {
+                            action = {
+                                incrementQuestionCount()
+                                this@dialog.goToNode(3) }
+                        }
+                    }
+                    node(3, "Bio-based economy is synonymous with bioeconomy or biotechonomy ") {
+                        option("True") {
+                            action = {
+                                incrementQuestionCount()
+                                this@dialog.goToNode(4)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(3, "Bio-based economy is synonymous with circular economy") {
+                    node(4, "Bio-based economy is synonymous with circular economy") {
                         option("True") {
                             action = {this@dialog.goToNode(11) }
                         }
                         option("False") {
                             action = {
-                                this@dialog.goToNode(4) }
+                                incrementQuestionCount()
+                                this@dialog.goToNode(5) }
                         }
                     }
-                    node(4, "The definition of Circular bioeconomy definition is the application of the Circular Economy concept to biological resources, products and materials.") {
+                    node(5, "The definition of Circular bioeconomy definition is the application of the Circular Economy concept to biological resources, products and materials.") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(5)
-                            }
-                        }
-                        option("False") { action = { this@dialog.goToNode(11) } }
-                    }
-                    node(5, "The definition of Circular bioeconomy definition is a part of Circular Economy. ") {
-                        option("True") {
-                            action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(6)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(6, "The definition of Circular bioeconomy definition is more than Bioeconomy and Circular economy alone. ") {
+                    node(6, "The definition of Circular bioeconomy definition is a part of Circular Economy. ") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(7)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(7, "The definition of Circular bioeconomy definition is intersection of Bioeconomy and Circular economy. ") {
+                    node(7, "The definition of Circular bioeconomy definition is more than Bioeconomy and Circular economy alone. ") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(8)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(8, "The definition of Circular bioeconomy definition is circular economy without Bioeconomy . ") {
+                    node(8, "The definition of Circular bioeconomy definition is intersection of Bioeconomy and Circular economy. ") {
+                        option("True") {
+                            action = {
+                                incrementQuestionCount()
+                                this@dialog.goToNode(9)
+                            }
+                        }
+                        option("False") { action = { this@dialog.goToNode(11) } }
+                    }
+                    node(9, "The definition of Circular bioeconomy definition is circular economy without Bioeconomy . ") {
                         option("True") {
                             action = { this@dialog.goToNode(11) }
                         }
                         option("False") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(12)
                             } }
                     }
@@ -165,6 +188,7 @@ class DialogSystem(
                     node(12,"Amazing! You earned a key. Go to each one of my other friends to claim the other ones."){
                         option("Great"){
                             action = {
+                                incrementQuestionCount()
                                 incrementKeyCount()
                                 this@dialog.end()}
                         }
@@ -173,84 +197,99 @@ class DialogSystem(
 
                 DialogId.BLOB2 -> dialog(id.name) {
 
-                    node(0, "The European Green Deal (EDG) is a package of policy initiatives, which aims to set the EU on the path to a green transition, with the ultimate goal of reaching climate neutrality by 2050. The primary goals under the Deal are net zero emissions of greenhouse gasses by 2050; economic growth is decoupled from the exploitation of resources; no one being left behind. In this aim, the  main policies set in 2021 by the EU Commission  included in the European Green Deal are in connection to:") {
+                    node(0, "The following question belongs to Module 3."){
+                        option("Continue"){
+                            action = {this@dialog.goToNode(1)}
+                        }
+                    }
+                    node(1 , "The European Green Deal (EDG) is a package of policy initiatives, which aims to set the EU on the path to a green transition, with the ultimate goal of reaching climate neutrality by 2050. The primary goals under the Deal are net zero emissions of greenhouse gasses by 2050; economic growth is decoupled from the exploitation of resources; no one being left behind. In this aim, the  main policies set in 2021 by the EU Commission  included in the European Green Deal are in connection to:") {
                         option("See choices") {
                             action = {
                                 incrementSlimeCount()
-                                this@dialog.goToNode(1) }
+                                this@dialog.goToNode(2) }
                         }
                     }
-                    node(1, "Increase the EU’s climate ambition for 2030 and 2050 ") {
+                    node(2, "Increase the EU’s climate ambition for 2030 and 2050 ") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(2)
-                            }
-                        }
-                        option("False") { action = { this@dialog.goToNode(11) } }
-                    }
-                    node(2, "Supplying clean, affordable, and secure energy ") {
-                        option("True") {
-                            action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(3)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(3, "Creating a clean and circular economy") {
+                    node(3, "Supplying clean, affordable, and secure energy ") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(4)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(4, "Efficient building and renovating ") {
+                    node(4, "Creating a clean and circular economy") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(5)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(5, "Accelerating the shift to sustainable and smart mobility ") {
+                    node(5, "Efficient building and renovating ") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(6)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(6, "“From farm to fork” ") {
+                    node(6, "Accelerating the shift to sustainable and smart mobility ") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(7)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(7, "Ecosystem and biodiversity preservation and restoration") {
+                    node(7, "“From farm to fork” ") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(8)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(8, "A zero pollution ambition for a toxic-free environment ") {
+                    node(8, "Ecosystem and biodiversity preservation and restoration") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(9)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(9, "No circular economy only industrial growth ") {
+                    node(9, "A zero pollution ambition for a toxic-free environment ") {
+                        option("True") {
+                            action = {
+                                incrementQuestionCount()
+                                this@dialog.goToNode(10)
+                            }
+                        }
+                        option("False") { action = { this@dialog.goToNode(11) } }
+                    }
+                    node(10, "No circular economy only industrial growth ") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(12) } }
+                        option("False") { action = {
+                            incrementQuestionCount()
+                            this@dialog.goToNode(12) } }
                     }
                     node(11, "Wrong answer."){
                         option("Ok"){
@@ -267,78 +306,95 @@ class DialogSystem(
 
                 DialogId.BLOB3 -> dialog(id.name) {
 
-                    node(0, "What are the EU Commission main target regarding green / sustainable agriculture?") {
+                    node(0, "The following questions belong to Module 4."){
+                        option("Continue"){
+                            action ={
+                                this@dialog.goToNode(1)
+                            }
+                        }
+                    }
+                    node(1, "What are the EU Commission main target regarding green / sustainable agriculture?") {
                         option("See choices") {
                             action = {
                                 incrementSlimeCount()
-                                this@dialog.goToNode(1) }
+                                this@dialog.goToNode(2) }
                         }
                     }
-                    node(1, "The main EU Commission target regarding green / sustainable agriculture is to ensure food security in conditions taking into account the geopolitical uncertainties, climate change and biodiversity loss. ") {
+                    node(2, "The main EU Commission target regarding green / sustainable agriculture is to ensure food security in conditions taking into account the geopolitical uncertainties, climate change and biodiversity loss. ") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(2)
+                                incrementQuestionCount()
+                                this@dialog.goToNode(3)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(2, "The main EU Commission target regarding green / sustainable agriculture is to increase the food production to assure all the need of EU population function of adequate eating requirements. ") {
+                    node(3, "The main EU Commission target regarding green / sustainable agriculture is to increase the food production to assure all the need of EU population function of adequate eating requirements. ") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(3) } }
+                        option("False") { action = {
+                            incrementQuestionCount()
+                            this@dialog.goToNode(4) } }
                     }
-                    node(2, "The main EU Commission target regarding green / sustainable agriculture is to assure all the needed food requirements for the EU population by diminishing the import and increasing the healthy food production. ") {
+                    node(4, "The main EU Commission target regarding green / sustainable agriculture is to assure all the needed food requirements for the EU population by diminishing the import and increasing the healthy food production. ") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(3) } }
+                        option("False") { action = {
+                            incrementQuestionCount()
+                            this@dialog.goToNode(5) } }
                     }
-                    node(3, "The main EU Commission target regarding green / sustainable agriculture is to develop and diversify the intensive agriculture procedures.") {
+                    node(5, "The main EU Commission target regarding green / sustainable agriculture is to develop and diversify the intensive agriculture procedures.") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(4) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(6) } }
                     }
-                    node(4, "What is the definition of green / sustainable agriculture?") {
+                    node(6, "What is the definition of green / sustainable agriculture?") {
                         option("See choices") {
                             action = {
-                                this@dialog.goToNode(5) }
+                                this@dialog.goToNode(7) }
                         }
                     }
-                    node(5, "The green / sustainable agriculture is the type of agricultural activity to supply society's food and textile needs in the present without compromising the ability of future generations to meet their own needs.") {
+                    node(7, "The green / sustainable agriculture is the type of agricultural activity to supply society's food and textile needs in the present without compromising the ability of future generations to meet their own needs.") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(6)
+                                incrementQuestionCount()
+                                this@dialog.goToNode(8)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(6, "The green / sustainable agriculture is the farming activity that uses a lot of machinery, labor, chemicals, etc. in order to grow as many crops or keep as many animals as possible on the amount of land available.") {
+                    node(8, "The green / sustainable agriculture is the farming activity that uses a lot of machinery, labor, chemicals, etc. in order to grow as many crops or keep as many animals as possible on the amount of land available.") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(7) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(9) } }
                     }
-                    node(7, "The green / sustainable agriculture comprises the methods of producing large amounts of crops, by using chemicals and machines.") {
+                    node(9, "The green / sustainable agriculture comprises the methods of producing large amounts of crops, by using chemicals and machines.") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(8) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(10) } }
                     }
-                    node(8, "The green / sustainable agriculture uses farming techniques that respect the environment, biodiversity and the earth’s natural waste absorption capacity.") {
+                    node(10, "The green / sustainable agriculture uses farming techniques that respect the environment, biodiversity and the earth’s natural waste absorption capacity.") {
                         option("True") {
                             action = {
+                                incrementQuestionCount()
                                 this@dialog.goToNode(12)
                             }
                         }
@@ -359,82 +415,98 @@ class DialogSystem(
 
                 DialogId.BLOB4 -> dialog(id.name) {
 
-                    node(0, "Why the EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies?") {
+                    node(0, "The following questions belong to Module 4."){
+                        option("Continue"){
+                            action = {
+                                this@dialog.goToNode(1)
+                            }
+                        }
+                    }
+                    node(1, "Why the EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies?") {
                         option("See choices") {
                             action = {
                                 incrementSlimeCount()
-                                this@dialog.goToNode(1) }
+                                this@dialog.goToNode(2) }
                         }
                     }
-                    node(1, "The EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies as it is built around a main goal, very important for these policies and strategies: maximum productivity of crops or domestic animal growth on the amount of available land.") {
+                    node(2, "The EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies as it is built around a main goal, very important for these policies and strategies: maximum productivity of crops or domestic animal growth on the amount of available land.") {
                         option("True") {
                             action = { this@dialog.goToNode(11) }
                         }
                         option("False"){
-                            action = {this@dialog.goToNode(2)}
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(3)}
                         }
                     }
-                    node(2, "The EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies as it built around a most important principle for these policies and strategies: higher use of inputs such as capital, labor, agrochemicals and water, to optimize crop yields or domestic animal growth.") {
+                    node(3, "The EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies as it built around a most important principle for these policies and strategies: higher use of inputs such as capital, labor, agrochemicals and water, to optimize crop yields or domestic animal growth.") {
                         option("True") {
                             action = { this@dialog.goToNode(11) }
                         }
                         option("False"){
-                            action = {this@dialog.goToNode(3)}
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(4)}
                         }
                     }
-                    node(3, "The EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies as is built around three main goals, highly important to these policy initiatives and strategies, to achieve a sustainable system of agriculture in the EU: economic sustainability, environmental sustainability, and. the social sustainability of farms.") {
+                    node(4, "The EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies as is built around three main goals, highly important to these policy initiatives and strategies, to achieve a sustainable system of agriculture in the EU: economic sustainability, environmental sustainability, and. the social sustainability of farms.") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(4)
+                                incrementQuestionCount()
+                                this@dialog.goToNode(5)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(4, "The EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies as it is a global standard of agriculture products in terms of safety, security of supply, nutrition and quality, the environmental sustainability being subsequent.") {
+                    node(5, "The EU’s Common Agriculture Policy (CAP) is central to the EU Green Deal & its Farm to Fork and Biodiversity strategies as it is a global standard of agriculture products in terms of safety, security of supply, nutrition and quality, the environmental sustainability being subsequent.") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(5) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(6) } }
                     }
-                    node(5, "What are the urgent objectives of green / sustainable agriculture?") {
+                    node(6, "What are the urgent objectives of green / sustainable agriculture?") {
                         option("See choices") {
                             action = {
-                                this@dialog.goToNode(6) }
+                                incrementQuestionCount()
+                                this@dialog.goToNode(7) }
                         }
                     }
-                    node(6, "The urgent objectives of green / sustainable agriculture are to increase productivity and to secure products’ fair prices for food security and poverty alleviation by implementing modern farming techniques, using improved seeds, irrigation, and implementing better management solutions for farm animals’ growth.") {
+                    node(7, "The urgent objectives of green / sustainable agriculture are to increase productivity and to secure products’ fair prices for food security and poverty alleviation by implementing modern farming techniques, using improved seeds, irrigation, and implementing better management solutions for farm animals’ growth.") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(7) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(8) } }
                     }
-                    node(7, "The urgent objectives of green / sustainable agriculture are to reduce dependency on pesticides and antimicrobials, reduce excess fertilization, increase organic farming, improve animal welfare, and reverse biodiversity loss.") {
+                    node(8, "The urgent objectives of green / sustainable agriculture are to reduce dependency on pesticides and antimicrobials, reduce excess fertilization, increase organic farming, improve animal welfare, and reverse biodiversity loss.") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(8)
+                                incrementQuestionCount()
+                                this@dialog.goToNode(9)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(8, "The urgent objectives of green / sustainable agriculture are market access and value chain development in order to help farmers to get fair prices for their produce and enhance overall agricultural value-added.") {
+                    node(9, "The urgent objectives of green / sustainable agriculture are market access and value chain development in order to help farmers to get fair prices for their produce and enhance overall agricultural value-added.") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(9) } }
+                        option("False") { action = {incrementQuestionCount()
+                            this@dialog.goToNode(10) } }
                     }
-                    node(9, "The urgent objectives of green / sustainable agriculture are higher yields, better quality of products, better crops’ adaptability, and higher capacity to feed concentrated farm animals."){
+                    node(10, "The urgent objectives of green / sustainable agriculture are higher yields, better quality of products, better crops’ adaptability, and higher capacity to feed concentrated farm animals."){
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(12) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(12) } }
                     }
                     node(11, "Wrong answer."){
                         option("Ok"){
@@ -450,121 +522,140 @@ class DialogSystem(
                 }
 
                 DialogId.BLOB5 -> dialog(id.name) {
-
-                    node(0, "Which are the characteristics of organic farming?") {
+                    node(0, "The following questions belong to Module 4."){
+                        option("Continue"){
+                            action = {
+                                this@dialog.goToNode(1)
+                            }
+                        }
+                    }
+                    node(1, "Which are the characteristics of organic farming?") {
                         option("See choices") {
                             action = {
                                 incrementSlimeCount()
-                                this@dialog.goToNode(1) }
+                                this@dialog.goToNode(2) }
                         }
                     }
-                    node(1, "Organic farming uses large amount of labor and investment to increase the crops’ yield, uses pesticides, fertilizers, and other chemicals, and also specific chemicals to assure the farm animals health.") {
+                    node(2, "Organic farming uses large amount of labor and investment to increase the crops’ yield, uses pesticides, fertilizers, and other chemicals, and also specific chemicals to assure the farm animals health.") {
                         option("True") {
                             action = { this@dialog.goToNode(11) }
                         }
                         option("False") {
-                            action = {this@dialog.goToNode(2) }
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(3) }
                         }
                     }
-                    node(2, "Organic farming uses large capital investment in equipment and technology, large-scale farms, monocultures, high-yield hybrid crops, extensive use of chemical fertilizers and pesticides, and for livestock-systems with high concentration and confinement of animals. ") {
+                    node(3, "Organic farming uses large capital investment in equipment and technology, large-scale farms, monocultures, high-yield hybrid crops, extensive use of chemical fertilizers and pesticides, and for livestock-systems with high concentration and confinement of animals. ") {
                         option("True") {
                             action = { this@dialog.goToNode(11) }
                         }
                         option("False") {
-                            action = {this@dialog.goToNode(3) }
-                        }
-                    }
-                    node(3, "Organic farming applies all the technological improvements for the productivity increase, both for crops or livestock, with no important interests for products’ nutritional quality or environment sustainability.") {
-                        option("True") {
-                            action = { this@dialog.goToNode(11) }
-                        }
-                        option("False") {
+                            incrementQuestionCount()
                             action = {this@dialog.goToNode(4) }
                         }
                     }
-                    node(4, "Organic farming does not use synthetic chemicals such as fertilizers, herbicides, insecticides, pesticides, but only uses natural / bio fertilizers, applies natural-derived biocides, reduces soil erosion, decreases nitrate leaching, uses traditional crop rotation, and recycles animal wastes back into the farm.") {
+                    node(4, "Organic farming applies all the technological improvements for the productivity increase, both for crops or livestock, with no important interests for products’ nutritional quality or environment sustainability.") {
+                        option("True") {
+                            action = { this@dialog.goToNode(11) }
+                        }
+                        option("False") {
+                            incrementQuestionCount()
+                            action = {this@dialog.goToNode(5) }
+                        }
+                    }
+                    node(5, "Organic farming does not use synthetic chemicals such as fertilizers, herbicides, insecticides, pesticides, but only uses natural / bio fertilizers, applies natural-derived biocides, reduces soil erosion, decreases nitrate leaching, uses traditional crop rotation, and recycles animal wastes back into the farm.") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(5)
+                                incrementQuestionCount()
+                                this@dialog.goToNode(6)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(5, "6.\tWhat is the target of European Green Deal regarding the Organic farming in connection with the EU Organic farming Action Plan?") {
+                    node(6, "6.What is the target of European Green Deal regarding the Organic farming in connection with the EU Organic farming Action Plan?") {
                         option("See choices") {
                             action = {
-                                this@dialog.goToNode(6) }
+                                incrementQuestionCount()
+                                this@dialog.goToNode(7) }
                         }
                     }
-                    node(6, "The target of the EU Green Deal regarding the Organic farming is to reach 50% of agricultural land under organic farming by 2030.") {
+                    node(7, "The target of the EU Green Deal regarding the Organic farming is to reach 50% of agricultural land under organic farming by 2030.") {
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(7) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(8) } }
                     }
-                    node(7, "The target of the EU Green Deal regarding the Organic farming is to reach 25% of agricultural land under organic farming by 2030.") {
+                    node(8, "The target of the EU Green Deal regarding the Organic farming is to reach 25% of agricultural land under organic farming by 2030.") {
                         option("True") {
                             action = {
-                                this@dialog.goToNode(8)
+                                incrementQuestionCount()
+                                this@dialog.goToNode(9)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(8, "The target of the EU Green Deal regarding the Organic farming is to replace all the chemical fertilizers by bio fertilizers until 2035."){
+                    node(9, "The target of the EU Green Deal regarding the Organic farming is to replace all the chemical fertilizers by bio fertilizers until 2035."){
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(9) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(10) } }
                     }
-                    node(9, "The target of the EU Green Deal regarding the Organic farming is to entirely assure EU population’ food quality and security until 2030."){
+                    node(10, "The target of the EU Green Deal regarding the Organic farming is to entirely assure EU population’ food quality and security until 2030."){
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(10) } }
+                        option("False") { action = {incrementQuestionCount()
+                            this@dialog.goToNode(13) } }
                     }
-                    node(10, "7.\tIn which main domain of activity, the EU Commission intend to assure important budgetary allowance with the aim to achieve the EU Organic farming Action Plan’ objectives?"){
+                    node(13, "7.In which main domain of activity, the EU Commission intend to assure important budgetary allowance with the aim to achieve the EU Organic farming Action Plan’ objectives?"){
                         option("See choices") {
                             action = {
-                                this@dialog.goToNode(13) }
+                                this@dialog.goToNode(14) }
                         }
                     }
-                    node(13, "For achieving the Organic farming Action Plan’ objectives the EU Commission intend to assure important budgetary allowance for research and innovation, at least 30% of the budget for research and innovation to actions in the fields of agriculture, forestry and rural areas comprising topics specific to or relevant for the organic sector."){
+                    node(14, "For achieving the Organic farming Action Plan’ objectives the EU Commission intend to assure important budgetary allowance for research and innovation, at least 30% of the budget for research and innovation to actions in the fields of agriculture, forestry and rural areas comprising topics specific to or relevant for the organic sector."){
                         option("True") {
                             action = {
-                                this@dialog.goToNode(14)
+                                incrementQuestionCount()
+                                this@dialog.goToNode(15)
                             }
                         }
                         option("False") { action = { this@dialog.goToNode(11) } }
                     }
-                    node(14, "For achieving the Organic farming Action Plan’ objectives the EU Commission intend to assure important budgetary allowance for farms modern management implementation."){
+                    node(15, "For achieving the Organic farming Action Plan’ objectives the EU Commission intend to assure important budgetary allowance for farms modern management implementation."){
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(15) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(16) } }
                     }
-                    node(15, "For achieving the Organic farming Action Plan’ objectives the EU Commission intend to assure important budgetary allowance for introduction of new systems of concentrated animals feeding and use of more efficient agrochemicals in land exploitation."){
+                    node(16, "For achieving the Organic farming Action Plan’ objectives the EU Commission intend to assure important budgetary allowance for introduction of new systems of concentrated animals feeding and use of more efficient agrochemicals in land exploitation."){
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(16) } }
+                        option("False") { action = { incrementQuestionCount()
+                            this@dialog.goToNode(17) } }
                     }
-                    node(16, "For achieving the Organic farming Action Plan’ objectives the EU Commission intend to assure important budgetary allowance for implementation of optimal models to apply agrochemicals and mechanization in land cultivation and to realize intensive farm animals’ growth."){
+                    node(17, "For achieving the Organic farming Action Plan’ objectives the EU Commission intend to assure important budgetary allowance for implementation of optimal models to apply agrochemicals and mechanization in land cultivation and to realize intensive farm animals’ growth."){
                         option("True") {
                             action = {
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { this@dialog.goToNode(12) } }
+                        option("False") { action = {incrementQuestionCount()
+                            this@dialog.goToNode(12) } }
                     }
                     node(11, "Wrong answer."){
                         option("Ok"){
@@ -579,93 +670,119 @@ class DialogSystem(
                     }
                 }
                 DialogId.BLOB6 -> dialog(id.name) {
-
-                    node(0, "Circular economy represents a model of production and consumption that involves sharing, leasing, reusing, repairing, refurbishing, and recycling existing materials and products as long as possible. In this way, the life cycle of products is extended. "){
+                    node(0, "The following questions belong to Module 3."){
+                        option("Continue"){
+                            action={
+                                this@dialog.goToNode(1)
+                            }
+                        }
+                    }
+                    node(1, "Circular economy represents a model of production and consumption that involves sharing, leasing, reusing, repairing, refurbishing, and recycling existing materials and products as long as possible. In this way, the life cycle of products is extended. "){
                         option("True"){
                             action = {
+                                incrementQuestionCount()
                                 incrementSlimeCount()
-                                this@dialog.goToNode(1) }
+                                this@dialog.goToNode(2) }
                         }
                         option("False"){
                             action = {this@dialog.goToNode(11) }
                         }
                     }
-                    node(1, "Circular economy represents an industrial economy that is restorative or regenerative by value and design. ") {
+                    node(2, "Circular economy represents an industrial economy that is restorative or regenerative by value and design. ") {
                         option("True"){
-                            action = {this@dialog.goToNode(2) }
-                        }
-                        option("False"){
-                            action = {this@dialog.goToNode(11) }
-                        }
-
-                    }
-                    node(2, "Circular economy represents an economic system that targets zero waste and pollution throughout materials lifecycles, from environment extraction to industrial transformation, and final consumers, applying to all involved ecosystems. Upon its lifetime end, materials return to either an industrial process or, in the case of a treated organic residual, safely back to the environment as in a natural regenerating cycle. "){
-                        option("True"){
+                            incrementQuestionCount()
                             action = {this@dialog.goToNode(3) }
                         }
                         option("False"){
                             action = {this@dialog.goToNode(11) }
                         }
+
                     }
-                    node(3, "Circular economy represents an economic system in which the natural resources are turned into products that are ultimately destined to become waste. "){
+                    node(3, "Circular economy represents an economic system that targets zero waste and pollution throughout materials lifecycles, from environment extraction to industrial transformation, and final consumers, applying to all involved ecosystems. Upon its lifetime end, materials return to either an industrial process or, in the case of a treated organic residual, safely back to the environment as in a natural regenerating cycle. "){
                         option("True"){
-                            action = {this@dialog.goToNode(11) }
-                        }
-                        option("False"){
-                            action = {this@dialog.goToNode(4) }
-                        }
-                    }
-                    node(4, "The circular economy has the potential to contribute significantly to the following sustainable development goals (SDGs) set by the United Nations (UN) only for the following SDGs:  Sustainable cities and communities  (SDG 11)  and Responsible consumption and production (SDG  12)  "){
-                        option("True"){
-                            action = {this@dialog.goToNode(11) }
-                        }
-                        option("False"){
-                            action = {this@dialog.goToNode(5) }
-                        }
-                    }
-                    node(5, "The circular economy has the potential to contribute significantly to the following sustainable development goals (SDGs) set by the United Nations (UN) only for the following SDGs:  Decent work and economic growth (SDG 8) and Industry, innovation, and infrastructure (SDG9) "){
-                        option("True"){
-                            action = {this@dialog.goToNode(11) }
-                        }
-                        option("False"){
-                            action = {this@dialog.goToNode(6) }
-                        }
-                    }
-                    node(6,"The circular economy has the potential to contribute significantly to the following sustainable development goals (SDGs) set by the United Nations (UN) only for three SDGs: Affordable and clean energy (SDG 7), Sustainable cities and communities  (SDG 11), and Climate action (SDG 13) "){
-                        option("True"){
-                            action = {this@dialog.goToNode(11) }
-                        }
-                        option("False"){
-                            action = {this@dialog.goToNode(7) }
-                        }
-                    }
-                    node(7,"The circular economy has the potential to contribute significantly to the following sustainable development goals (SDGs) set by the United Nations (UN) for the following SDGs without  limiting: Affordable and clean energy (SDG 7), Decent work and economic growth (SDG 8), Industry, innovation and infrastructure (SDG9), Sustainable cities and communities  (SDG11), Responsible consumption and production (SDG 12) and Climate action (SDG 13) "){
-                        option("True"){
-                            action = {this@dialog.goToNode(8) }
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(4) }
                         }
                         option("False"){
                             action = {this@dialog.goToNode(11) }
                         }
                     }
-                    node(8,"The benefits of switching to a circular economy are in the following fields: To protect the environment"){
+                    node(4, "Circular economy represents an economic system in which the natural resources are turned into products that are ultimately destined to become waste. "){
                         option("True"){
-                            action = {this@dialog.goToNode(9) }
+                            action = {this@dialog.goToNode(11) }
+                        }
+                        option("False"){
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(5) }
+                        }
+                    }
+                    node(5, "The circular economy has the potential to contribute significantly to the following sustainable development goals (SDGs) set by the United Nations (UN) "){
+                        option("See choices"){
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(6) }
+                        }
+                    }
+                    node(6, "Only for the following SDGs:  Sustainable cities and communities  (SDG 11)  and Responsible consumption and production (SDG  12) "){
+                        option("True"){
+                            action = {
+                                this@dialog.goToNode(11)
+                            }
+
+                        }
+                        option("False"){
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(7) }
+                        }
+                    }
+                    node(7, "Only for the following SDGs:  Decent work and economic growth (SDG 8) and Industry, innovation, and infrastructure (SDG9) "){
+                        option("True"){
+                            action = {this@dialog.goToNode(11) }
+                        }
+                        option("False"){
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(8) }
+                        }
+                    }
+                    node(8,"Only for three SDGs: Affordable and clean energy (SDG 7), Sustainable cities and communities  (SDG 11), and Climate action (SDG 13) "){
+                        option("True"){
+                            action = {this@dialog.goToNode(11) }
+                        }
+                        option("False"){
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(9) }
+                        }
+                    }
+                    node(9,"For the following SDGs without  limiting: Affordable and clean energy (SDG 7), Decent work and economic growth (SDG 8), Industry, innovation and infrastructure (SDG9), Sustainable cities and communities  (SDG11), Responsible consumption and production (SDG 12) and Climate action (SDG 13) "){
+                        option("True"){
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(10) }
                         }
                         option("False"){
                             action = {this@dialog.goToNode(11) }
                         }
                     }
-                    node(9, "The benefits of switching to a circular economy are in the following fields:Reduce raw material dependence "){
+                    node(10,"The benefits of switching to a circular economy are in the following fields: To protect the environment"){
                         option("True"){
-                            action = {this@dialog.goToNode(10) }
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(13) }
                         }
                         option("False"){
                             action = {this@dialog.goToNode(11) }
                         }
                     }
-                    node(10,"The benefits of switching to a circular economy are in the following fields:Create jobs and save consumers money "){
+                    node(13, "The benefits of switching to a circular economy are in the following fields:Reduce raw material dependence "){
                         option("True"){
-                            action = {this@dialog.goToNode(12) }
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(14) }
+                        }
+                        option("False"){
+                            action = {this@dialog.goToNode(11) }
+                        }
+                    }
+                    node(14,"The benefits of switching to a circular economy are in the following fields:Create jobs and save consumers money "){
+                        option("True"){
+                            action = {incrementQuestionCount()
+                                this@dialog.goToNode(12) }
                         }
                         option("False"){
                             action = {this@dialog.goToNode(11) }
@@ -687,27 +804,51 @@ class DialogSystem(
                 DialogId.BLOB7 -> dialog(id.name) {
                     if(slimeCount < 6)
                     {
-                        node(0, "Go back and search some more") {
+                        node(0, "Oh, you don't have enough keys! Go back and search some more.\n"+
+                        "You have $keyCount/6 keys.") {
                             option("Ok"){
                                 action = {
+
                                     dialogCache.clear()
                                     this@dialog.end()}
                             }
                         }
                     } else if (keyCount >= 3){
-                        node(0, "You win!") {
+                        node(0, "You win! \n" +
+                            " Total number of questions : 56 \n" +
+                            " Number of questions answered correctly:$questionCount") {
                             option("Great!"){
                                 action = {this@dialog.end()}
                             }
                         }
                     }else{
-                        node(0, "Game lost!") {
-                            option("Try again"){
+                        node(0, "Game lost! \n" +
+                            " Total number of questions: 56 \n" +
+                            " Number of questions answered correctly:$questionCount") {
+                            option("Exit"){
                                 action = {this@dialog.end()}
                             }
                         }
                     }
 
+                }
+                DialogId.BLOB8 -> dialog(id.name) {
+                    node(0, "How to play. \n" +
+                        "Use the arrow keys to move around. \n" +
+                        "Go to each slime and press Space to interact with them. \n" +
+                        "Beware of the timer. If the time runs out you lose!" ){
+                        option("Next"){
+                            action = { this@dialog.goToNode(1) }
+                        }
+                    }
+                    node(1, "How to win. \n"+
+                        "Answer the slime questions correctly and you will receive a key. If you get a question wrong you have to move on to the next slime. \n" +
+                        "Press True or False with your mouse to answer the questions \n"+
+                        "If you obtain 3 or more keys go to the door at the end of the map and escape the room. \n"){
+                        option("Start game."){
+                            action = { this@dialog.end() }
+                        }
+                    }
                 }
 
                 else -> gdxError("No dialog configured for $id.")

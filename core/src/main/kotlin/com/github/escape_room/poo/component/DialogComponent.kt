@@ -11,7 +11,8 @@ enum class DialogId {
     BLOB4,
     BLOB5,
     BLOB6,
-    BLOB7
+    BLOB7,
+    BLOB8
 }
 
 data class DialogComponent(

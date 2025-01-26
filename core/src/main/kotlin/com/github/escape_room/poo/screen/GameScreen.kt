@@ -116,7 +116,7 @@ class GameScreen(game: Escape_Room) : KtxScreen {
                         action = { this@dialog.goToNode(1)}
                     }
                 }
-                node(1, "Gender, Digitalization, Green: Ensuring a Sustainable Future for all in Europe" ) {
+                node(1, "Gender, Digitalization, Green: Ensuring a Sustainable Future for all in Europe Ref. Project: 2023-1-RO01- KA220-HED-000154433, lider: Universitatea de Stiinte Agricole si Medicina Veterinara in care UNSTPB este partener, alaturi de: Universitat Autonoma de Barcelona, Spania, Universidade do Porto, Portugalia si Uzhgorodskyi Nacionalnyi Universitet, Ukraina." ) {
                     option("Next") {
                         action = { this@dialog.goToNode(2) }
                     }
@@ -131,7 +131,24 @@ class GameScreen(game: Escape_Room) : KtxScreen {
                     }
                 }
                 node(3, "Teachers: Mihai Caramihai, Daniel Chis") {
-                    option("Start Game") {
+                    option("Next") {
+                        action = { this@dialog.goToNode(4) }
+                    }
+                }
+                node(4, "How to play. \n" +
+                    "Use the arrow keys to move around. \n" +
+                    "Go to each slime and press Space to interact with them. \n" +
+                    "Beware of the timer. If the time runs out you lose!" +
+                    "If you need more help go to the green slime and he will guide you."){
+                    option("Next"){
+                        action = { this@dialog.goToNode(5) }
+                    }
+                }
+                node(5, "How to win. \n"+
+                    "Answer the slime questions correctly and you will receive a key. If you get a question wrong you have to move on to the next slime. \n" +
+                    "Press True or False with your mouse to answer the questions \n"+
+                    "If you obtain 3 or more keys go to the door at the end of the map and escape the room. \n"){
+                    option("Start game."){
                         action = { this@dialog.end() }
                     }
                 }
