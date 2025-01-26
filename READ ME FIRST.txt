@@ -1,0 +1,2 @@
+To open the application double-click on the gradlew.bat (Windows Batch File).
+Enjoy our game!
