@@ -89,6 +89,7 @@ class DialogSystem(
                     node(0,"The following questions belong to Module 3."){
                         option("Continue"){
                             action = {
+                                incrementSlimeCount()
                                 this@dialog.goToNode(1)
                             }
                         }
@@ -97,7 +98,6 @@ class DialogSystem(
                         option("True") {
                             action = {
                                 incrementQuestionCount()
-                                incrementSlimeCount()
                                 this@dialog.goToNode(2) }
                         }
                         option("False") {
@@ -188,7 +188,6 @@ class DialogSystem(
                     node(12,"Amazing! You earned a key. Go to each one of my other friends to claim the other ones."){
                         option("Great"){
                             action = {
-                                incrementQuestionCount()
                                 incrementKeyCount()
                                 this@dialog.end()}
                         }
@@ -355,7 +354,8 @@ class DialogSystem(
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { incrementQuestionCount()
+                        option("False") {
+                            action = { incrementQuestionCount()
                             this@dialog.goToNode(6) } }
                     }
                     node(6, "What is the definition of green / sustainable agriculture?") {
@@ -379,7 +379,8 @@ class DialogSystem(
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { incrementQuestionCount()
+                        option("False") {
+                            action = { incrementQuestionCount()
                             this@dialog.goToNode(9) } }
                     }
                     node(9, "The green / sustainable agriculture comprises the methods of producing large amounts of crops, by using chemicals and machines.") {
@@ -388,7 +389,8 @@ class DialogSystem(
                                 this@dialog.goToNode(11)
                             }
                         }
-                        option("False") { action = { incrementQuestionCount()
+                        option("False") {
+                            action = { incrementQuestionCount()
                             this@dialog.goToNode(10) } }
                     }
                     node(10, "The green / sustainable agriculture uses farming techniques that respect the environment, biodiversity and the earth’s natural waste absorption capacity.") {
@@ -468,7 +470,6 @@ class DialogSystem(
                     node(6, "What are the urgent objectives of green / sustainable agriculture?") {
                         option("See choices") {
                             action = {
-                                incrementQuestionCount()
                                 this@dialog.goToNode(7) }
                         }
                     }
@@ -575,7 +576,6 @@ class DialogSystem(
                     node(6, "6.What is the target of European Green Deal regarding the Organic farming in connection with the EU Organic farming Action Plan?") {
                         option("See choices") {
                             action = {
-                                incrementQuestionCount()
                                 this@dialog.goToNode(7) }
                         }
                     }
@@ -669,19 +669,21 @@ class DialogSystem(
                         }
                     }
                 }
+
                 DialogId.BLOB6 -> dialog(id.name) {
                     node(0, "The following questions belong to Module 3."){
                         option("Continue"){
                             action={
+                                incrementSlimeCount()
                                 this@dialog.goToNode(1)
                             }
                         }
                     }
                     node(1, "Circular economy represents a model of production and consumption that involves sharing, leasing, reusing, repairing, refurbishing, and recycling existing materials and products as long as possible. In this way, the life cycle of products is extended. "){
                         option("True"){
+
                             action = {
                                 incrementQuestionCount()
-                                incrementSlimeCount()
                                 this@dialog.goToNode(2) }
                         }
                         option("False"){
@@ -690,8 +692,9 @@ class DialogSystem(
                     }
                     node(2, "Circular economy represents an industrial economy that is restorative or regenerative by value and design. ") {
                         option("True"){
-                            incrementQuestionCount()
-                            action = {this@dialog.goToNode(3) }
+                            action = {
+                                incrementQuestionCount()
+                                this@dialog.goToNode(3) }
                         }
                         option("False"){
                             action = {this@dialog.goToNode(11) }
@@ -700,10 +703,13 @@ class DialogSystem(
                     }
                     node(3, "Circular economy represents an economic system that targets zero waste and pollution throughout materials lifecycles, from environment extraction to industrial transformation, and final consumers, applying to all involved ecosystems. Upon its lifetime end, materials return to either an industrial process or, in the case of a treated organic residual, safely back to the environment as in a natural regenerating cycle. "){
                         option("True"){
-                            action = {incrementQuestionCount()
+                            action = {
+                                println("acceseaza imediat increment3")
+                                incrementQuestionCount()
                                 this@dialog.goToNode(4) }
                         }
                         option("False"){
+                            println("nuinccrement3")
                             action = {this@dialog.goToNode(11) }
                         }
                     }
@@ -718,7 +724,7 @@ class DialogSystem(
                     }
                     node(5, "The circular economy has the potential to contribute significantly to the following sustainable development goals (SDGs) set by the United Nations (UN) "){
                         option("See choices"){
-                            action = {incrementQuestionCount()
+                            action = {
                                 this@dialog.goToNode(6) }
                         }
                     }
@@ -814,6 +820,7 @@ class DialogSystem(
                             }
                         }
                     } else if (keyCount >= 3){
+                        println(questionCount)
                         node(0, "You win! \n" +
                             " Total number of questions : 56 \n" +
                             " Number of questions answered correctly:$questionCount") {
