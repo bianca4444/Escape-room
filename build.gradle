@@ -1,16 +1,15 @@
 buildscript {
   repositories {
     mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
     gradlePluginPortal()
     mavenLocal()
     google()
+    maven { url 'https://s01.oss.sonatype.org' }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-
   }
 }
 
@@ -18,7 +17,6 @@ allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
 
-  // This allows you to "Build and run using IntelliJ IDEA", an option in IDEA's Settings.
   idea {
     module {
       outputDir file('build/classes/java/main')
@@ -30,22 +28,26 @@ allprojects {
 configure(subprojects) {
   apply plugin: 'java-library'
   apply plugin: 'kotlin'
-  sourceCompatibility = 8
 
-  // From https://lyze.dev/2021/04/29/libGDX-Internal-Assets-List/
-  // The article can be helpful when using assets.txt in your project.
+  // Set toolchain for Java to version 21
+  java {
+    toolchain {
+      languageVersion.set(JavaLanguageVersion.of(21))
+    }
+  }
+
+  // Set JVM target for Kotlin to version 21
+  kotlin {
+    jvmToolchain(21)
+  }
+
+  // Generare listă de asset-uri pentru libGDX
   tasks.register('generateAssetList') {
     inputs.dir("${project.rootDir}/assets/")
-    // projectFolder/assets
     File assetsFolder = new File("${project.rootDir}/assets/")
-    // projectFolder/assets/assets.txt
     File assetsFile = new File(assetsFolder, "assets.txt")
-    // delete that file in case we've already created it
     assetsFile.delete()
 
-    // iterate through all files inside that folder
-    // convert it to a relative path
-    // and append it to the file assets.txt
     fileTree(assetsFolder).collect { assetsFolder.relativePath(it) }.sort().each {
       assetsFile.append(it + "\n")
     }
@@ -55,18 +57,18 @@ configure(subprojects) {
   compileJava {
     options.incremental = true
   }
-  compileKotlin.compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
-  compileTestKotlin.compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
-  
+
+  compileKotlin.compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+  compileTestKotlin.compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
 }
 
 subprojects {
-  version = '$projectVersion'
+  version = '1.0.0' // Înlocuiește cu versiunea reală a proiectului
   ext.appName = 'Escape_Room'
+
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
-    // You may want to remove the following line if you have errors downloading dependencies.
     mavenLocal()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
@@ -74,4 +76,4 @@ subprojects {
   }
 }
 
-eclipse.project.name = 'Escape_Room' + '-parent'
+eclipse.project.name = 'Escape_Room-parent'

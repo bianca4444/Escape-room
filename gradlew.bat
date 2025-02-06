@@ -93,6 +93,3 @@ if "%OS%"=="Windows_NT" endlocal
 
 :omega
 gradlew run
-
-
-gradlew run
