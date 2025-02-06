@@ -1,2 +1,20 @@
 To open the application double-click on the gradlew.bat (Windows Batch File).
 Enjoy our game!
+
+
+
+INSTRUCTIONS -------------------------------------------------------------------------------
+The game requires Java to be installed. As well as the proper path to be set.
+
+You don't have java installed?
+Here is where you can get it from https://www.java.com/download/ie_manual.jsp.
+
+How to add the path:
+1. Open "Edit the system environment variables" by searching for it in the Windows search bar and selecting it.
+2. Click "Environment Variables."
+3. Under "System variables" (or "User variables" if you prefer), click "New."
+4. In the "Variable name" field, type JAVA_HOME.
+5. In the "Variable value" field, enter the Java installation path (e.g. C:\Program Files\Java\jdk-23).
+6. Click OK to save.
+7. To add Java to your Path, find the "Path" variable in System Variables, click Edit, then New, and add %JAVA_HOME%\bin.
+8. Click OK to save everything, then restart your terminal or PC for changes to take effect.

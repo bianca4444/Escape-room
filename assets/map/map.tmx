@@ -65,14 +65,14 @@
     <property name="color" type="color" value="#ffaaaaff"/>
    </properties>
   </object>
-  <object id="27" name="BLOB8" type="BLOB" gid="104" x="88.43" y="294.62" width="32" height="32">
-   <properties>
-    <property name="color" type="color" value="#ff00ff2b"/>
-   </properties>
-  </object>
   <object id="29" name="BLOB7" type="BLOB" gid="104" x="434.43" y="200.62" width="32" height="32">
    <properties>
     <property name="color" type="color" value="#ffaaaaff"/>
+   </properties>
+  </object>
+  <object id="27" name="BLOB8" type="BLOB" gid="104" x="88.43" y="294.62" width="32" height="32">
+   <properties>
+    <property name="color" type="color" value="#ff00ff2b"/>
    </properties>
   </object>
  </objectgroup>

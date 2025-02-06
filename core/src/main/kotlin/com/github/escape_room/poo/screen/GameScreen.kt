@@ -101,7 +101,7 @@ class GameScreen(game: Escape_Room) : KtxScreen {
         uiStage.actors {
 
 
-            timerView = timerView(initialTime = 1200f,skin = Scene2DSkin.defaultSkin,onTimeUp = {
+            timerView = timerView(initialTime = 1500f,skin = Scene2DSkin.defaultSkin,onTimeUp = {
                 gameOver = true
             }) {
                 setPosition(10f, 80f)

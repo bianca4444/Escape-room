@@ -77,7 +77,7 @@ class DialogSystem(
 
             stage.fire(EntityDialogEvent(dialog))
 
-            if(dialogId == DialogId.BLOB7) hasInteracted = false
+            if(dialogId == DialogId.BLOB7 || dialogId == DialogId.BLOB8) hasInteracted = false
             else hasInteracted = true
         }
     }
